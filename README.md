@@ -1,5 +1,5 @@
 # A network-assisted approach to predicting passing distributions #
-###Autumn 2015###
+###2022 Spring###
 
 **Data:** UEFA Champions League 2014-15 season. Relevant data can be found in
 the data directory in the following subfolders:
