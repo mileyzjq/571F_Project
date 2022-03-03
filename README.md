@@ -19,16 +19,23 @@ passing network) by 25.27%
 **To duplicate our results or run experiments of your own with our linear
 predictor:** 
 
-Linear predictor with entire model sharing one set of weights
+BaseLine predictor
+
+```bash
+$ cd predicted
+$ python baseline.py
 ```
+
+Linear predictor with entire model sharing one set of weights
+
+```bash
 $ cd predicted
 $ python pdPrediction.py
 ```
 
 Linear predictor with each team having its own set of weights
-```
+
+```bash
 $ cd predicted
 $ python pdPrediction-team.py
 ```
-
-_For more details including model, algorithm, analysis, results, see writeup/final.pdf_
