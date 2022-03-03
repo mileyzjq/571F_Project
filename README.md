@@ -1,5 +1,4 @@
 # A network-assisted approach to predicting passing distributions #
-## Final project for CS224W at Stanford University ##
 ###Autumn 2015###
 
 **Data:** UEFA Champions League 2014-15 season. Relevant data can be found in
