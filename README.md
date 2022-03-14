@@ -1,5 +1,5 @@
-# A Graph Neural Net approach to predict football passing distributions #
-###2022 Spring###
+# A Graph Neural Net approach to predict football passing distributions
+### 2022 Spring
 
 **Goal:** Based on games from the group stage, predict passing distributions
 for games in the round of 16 stage
