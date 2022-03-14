@@ -53,7 +53,7 @@ for team in os.listdir(squad_dir):
 folder = "../data/passing_distributions/2014-15/"
 totalPassesBetweenPos = defaultdict(lambda: defaultdict(int))
 
-matchdays = ["matchday" + str(i) for i in xrange(1, 7)]
+matchdays = ["matchday" + str(i) for i in range(1, 7)]
 matchdays.append("r-16")
 matchdays.append("q-finals")
 matchdays.append("s-finals")
@@ -86,19 +86,19 @@ for matchday in matchdays:
             if printHuman:
                 # print the data in a tabular format for each matchID
                 if matchID == lastMatchID:
-                    print("MatchID: %s" % matchID)
-                    print("{0:10}{1:<20}{2:<}".format("Position", lastTeamName, teamName))
+                    print(("MatchID: %s" % matchID))
+                    print(("{0:10}{1:<20}{2:<}".format("Position", lastTeamName, teamName)))
                     for posPair in allPosCombos:
-                        print("{0:10}{1:<20}{2:<}".format(posPair,
+                        print(("{0:10}{1:<20}{2:<}".format(posPair,
                                                           passesBetweenPos[lastTeamName][posPair],
-                                                          passesBetweenPos[teamName][posPair]))
+                                                          passesBetweenPos[teamName][posPair])))
                     # reset
                     passesBetweenPos = defaultdict(lambda: defaultdict(int))
 
             else:
                 # print the data in a .csv/parse-able format
-                print("MatchID: %s" % matchID)
-                print("Team: %s" % teamName)
+                print(("MatchID: %s" % matchID))
+                print(("Team: %s" % teamName))
                 filename = "../data/games_by_pos/perTeam/" + matchID + "-" + re.sub(" ", "_", teamName)
                 outfile = open(filename, "w+")
 
@@ -113,7 +113,7 @@ for matchday in matchdays:
 # print in nice table format
 # # total number of passes
 # for teamName in totalPassesBetweenPos:
-# 	print "Team: %s" % teamName
-# 	print "Position\tNumber of Passes"
-# 	for posPair in totalPassesBetweenPos[teamName]:
-# 		print "%s\t%s" % (posPair, totalPassesBetweenPos[teamName][posPair])
+#   print "Team: %s" % teamName
+#   print "Position\tNumber of Passes"
+#   for posPair in totalPassesBetweenPos[teamName]:
+#       print "%s\t%s" % (posPair, totalPassesBetweenPos[teamName][posPair])

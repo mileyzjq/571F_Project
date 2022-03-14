@@ -43,7 +43,7 @@ class Baseline():
                         loss = (avgPass - float(weight)) ** 2
                         avgLoss += loss
                         count += 1
-        print ("Baseline Average Loss: {}".format(avgLoss / count))
+        print(("Baseline Average Loss: {}".format(avgLoss / count)))
 
 base = Baseline()
 base.predict()

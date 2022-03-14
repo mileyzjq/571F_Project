@@ -26,7 +26,7 @@ def getTeamNameFromFile(network):
 allGroupPasses = defaultdict(lambda: defaultdict(int))
 folder = "../data/passing_distributions/2014-15/"
 
-matchdays = ["matchday" + str(i) for i in xrange(1, 7)]
+matchdays = ["matchday" + str(i) for i in range(1, 7)]
 for matchday in matchdays:
     path = folder + matchday + "/networks/"
     for network in os.listdir(path):
@@ -43,4 +43,4 @@ for matchday in matchdays:
 for teamName in allGroupPasses:
     for p_key in allGroupPasses[teamName]:
         weight = allGroupPasses[teamName][p_key]
-        print("%s, %s, %s" % (teamName, p_key, weight))
+        print(("%s, %s, %s" % (teamName, p_key, weight)))
