@@ -14,11 +14,13 @@ import os
 import re
 from collections import defaultdict
 
+
 def getTeamNameFromFile(network):
     teamName = re.sub("[^-]*-", "", network, count=1)
     teamName = re.sub("-edges", "", teamName)
     teamName = re.sub("_", " ", teamName)
     return teamName
+
 
 # allGroupPasses[team][p1-p2] = totalPasses
 allGroupPasses = defaultdict(lambda: defaultdict(int))
@@ -41,4 +43,4 @@ for matchday in matchdays:
 for teamName in allGroupPasses:
     for p_key in allGroupPasses[teamName]:
         weight = allGroupPasses[teamName][p_key]
-        print "%s, %s, %s" % (teamName, p_key, weight)
+        print("%s, %s, %s" % (teamName, p_key, weight))

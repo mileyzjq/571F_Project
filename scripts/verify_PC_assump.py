@@ -51,15 +51,15 @@ for matchday in matchdays:
 			else:
 				oppTeam = matches[matchID]
 				matches[matchID] += "/" + teamName
-				print matches[matchID]
-				print "numMatches: %d" % (numMatches)
+				print(matches[matchID])
+				print("numMatches: %d" % (numMatches))
 				matchIDToScore[matchID] = matchesWithScores[numMatches]
-				print matchIDToScore[matchID]
+				print(matchIDToScore[matchID])
 				team1, score1, score2, team2 = matchIDToScore[matchID].split(", ")
 
 				teamFile = open(path + matchID + "_tpd-" + re.sub(" ", "_", teamName) + "-team", "r")
 				for line in teamFile:
-					print line
+					print(line)
 					passC1, passA1, passPerc1 = line.rstrip().split(", ")
 
 				score1 = int(score1)
@@ -72,8 +72,8 @@ for matchday in matchdays:
 					passC2, passA2, passPerc2 = line.rstrip().split(", ")
 				passC2 = float(passC2)
 				passPerc2 = float(passPerc2)
-				print "passVol1: %d, passVol2: %d" % (passC1, passC2)
-				print "passPerc: %f, passPerc2: %f" % (passPerc1, passPerc2)
+				print("passVol1: %d, passVol2: %d" % (passC1, passC2))
+				print("passPerc: %f, passPerc2: %f" % (passPerc1, passPerc2))
 
 				if score1 > score2 and passC1 > passC2:
 					yesHighPCVol += 1
@@ -87,5 +87,5 @@ for matchday in matchdays:
 
 				numMatches += 1
 
-print "Perc times larger PC Perc matches with winning team: %s" % ( 1 - yesHighPCVol / float(numMatches))
-print "Perc times larger PC Vol matches with winning team: %s" % (1 - yesHighPCPerc / float(numMatches))
+print("Perc times larger PC Perc matches with winning team: %s" % ( 1 - yesHighPCVol / float(numMatches)))
+print("Perc times larger PC Vol matches with winning team: %s" % (1 - yesHighPCPerc / float(numMatches)))

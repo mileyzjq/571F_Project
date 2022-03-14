@@ -19,8 +19,8 @@ for line in scores_file:
 
 scores_list = [(scores[team], team) for team in scores]
 scores_list = sorted(scores_list, reverse = True)
-print "Sorted by aggregate scores"
-print scores_list
+print("Sorted by aggregate scores")
+print(scores_list)
 
 # rank teams by games won
 scores_file = open(filename, "r")
@@ -36,6 +36,6 @@ for line in scores_file:
 
 scores_list = [(scores[team], team) for team in scores]
 scores_list = sorted(scores_list, reverse = True)
-print ""
-print "Sorted by games won"
-print scores_list
+print("")
+print("Sorted by games won")
+print(scores_list)

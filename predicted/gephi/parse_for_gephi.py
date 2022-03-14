@@ -10,7 +10,7 @@ for f in files:
 	outFile.write("Source;Target;Weight\n")
 	edgeLines = [line.rstrip() for line in edgeFile]
 	for line in edgeLines:
-		print "line is: %s" % line
+		print("line is: %s" % line)
 		s, t, w = line.split("\t")
 		outFile.write(s + ";" + t + ";" + w + "\n")
 

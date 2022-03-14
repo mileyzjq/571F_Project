@@ -33,9 +33,9 @@ for matchday in matchdays:
 			totalNodes += len([line for line in nodeFile])
 			totalTeams += 1
 
-print "Total edges: %d" % totalEdges
-print "Total nodes: %d" % totalNodes
-print "Total teams: %d" % totalTeams
-print "Avg # nodes per team: %f" % (totalNodes / float(totalTeams))
-print "Avg # edges per team: %f" % (totalEdges / float(totalTeams))
+print("Total edges: %d" % totalEdges)
+print("Total nodes: %d" % totalNodes)
+print("Total teams: %d" % totalTeams)
+print("Avg # nodes per team: %f" % (totalNodes / float(totalTeams)))
+print("Avg # edges per team: %f" % (totalEdges / float(totalTeams)))
 
