@@ -10,7 +10,7 @@ class PredictPD():
 
 		# Entire model uses one set of weights
 		self.weights = defaultdict(int)
-		self.stepSize = 0.008
+		self.stepSize = 0.0092
 
 		# -------- Initialize directory paths --------
 		self.data_dir = "../data/"
@@ -38,7 +38,7 @@ class PredictPD():
 		self.countPassesPosFeature = classes.CountPassesPerPosFeature(passPerPosDir, "group")
 		self.passComplAttempTeamFeature = classes.CountPassesComplAttempPerTeamFeature("group")
 		# -------------------------------------
-		print("countAvgFile" + countAvgFile);
+		#print("countAvgFile" + countAvgFile);
 		#print("playerPosFeature" + self.playerPosFeature);
 
 		# -------- Initialize data structures --------
@@ -79,7 +79,7 @@ class PredictPD():
 	# returns a vector
 	# 2 * (phi(x) dot w - y) * phi(x)
 	def computeGradientLoss(self, features, weights, label):
-		scalar =  2 * self.computeScore(features, weights) - label
+		scalar = 2 * self.computeScore(features, weights) - label
 		mult = copy.deepcopy(features)
 		for f in mult:
 			mult[f] = float(mult[f])
@@ -157,7 +157,7 @@ class PredictPD():
 		features = defaultdict(float)
 		features["avgPasses"] = avgPasses
 		features["isSamePos"] = isSamePos
-		# features["isDiffPos"] = isDiffPos
+		#features["isDiffPos"] = isDiffPos
 		features["diffInRank"] = diffInRank
 
 		pos1 = self.teamNumToPos[teamName][p1]
@@ -182,20 +182,6 @@ class PredictPD():
 
 		# features["avgPassesPerPos"] = avgPassesPerPos
 
-		
-		# --- Running average
-		# avgPassCompl = self.passComplPerTeam[teamName] / (matchNum + 1.0)
-		# avgPassAttem = self.passAttemPerTeam[teamName] / (matchNum + 1.0)
-		# avgPassPerc = self.passPercPerTeam[teamName] / (matchNum + 1.0)
-		# avgPassFail = avgPassCompl - avgPassAttem
-
-		# oppAvgPassCompl = self.passComplPerTeam[oppTeam] / (matchNum + 1.0)
-		# oppAvgPassAttem = self.passAttemPerTeam[oppTeam] / (matchNum + 1.0)
-		# oppAvgPassPerc = self.passPercPerTeam[oppTeam] / (matchNum + 1.0)
-		# oppAvgPassFail = oppAvgPassCompl - oppAvgPassAttem
-
-		# --- 
-
 		# --- Precomputed
 		avgPassCompl = self.passComplAttempTeamFeature.getPCCount(teamName, matchNum)
 		avgPassAttem = self.passComplAttempTeamFeature.getPACount(teamName, matchNum)
@@ -206,7 +192,6 @@ class PredictPD():
 		oppAvgPassAttem = self.passComplAttempTeamFeature.getPACount(oppTeam, matchNum)
 		oppAvgPassPerc = self.passComplAttempTeamFeature.getPCPerc(oppTeam, matchNum)
 		oppAvgPassFail = oppAvgPassCompl - oppAvgPassAttem
-		# ---
   
 		# for feature: won against a similar ranking team
 		# 1. define history that we are able to use, i.e. previous games
@@ -259,7 +244,7 @@ class PredictPD():
 		if "s-finals" not in allGames:
 			allGames.append("s-finals")
 		for matchday in allGames:
-			print ("Init matchday: " + matchday)
+		#	print ("Init matchday: " + matchday)
 			path = self.folder + matchday + "/networks/"
 			for network in os.listdir(path):
 				if re.search("-edges", network):
@@ -313,7 +298,7 @@ class PredictPD():
 	def train(self):
 		# iterate over matchdays, predicting passes, performing SGD, etc.
 
-		num_iter = 2
+		num_iter = 11
 		self.initMatches()
 		self.initTeamStats()
 		
@@ -325,8 +310,8 @@ class PredictPD():
 			totalEx = 0
 			#print ("Iteration " + i)
 			print ("------------")
-			for w in self.weights:
-				print ("weights[{}] = {}".format(w, float(self.weights[w])))
+			# for w in self.weights:
+			# 	print ("weights[{}] = {}".format(w, float(self.weights[w])))
 			# iterate over matchdays -- hold out on some matchdays
 			matchNum = 0
 
@@ -336,7 +321,7 @@ class PredictPD():
 			allGames = []
 
 			for matchday in self.matchdays:
-				print ("On " + matchday)
+				#print ("On " + matchday)
 				path = self.folder + matchday + "/networks/"
 				# iterate over games
 				for network in os.listdir(path):
@@ -369,7 +354,7 @@ class PredictPD():
 					# for f in features:
 					# 	print "features[%s] = %f" % (f, float(features[f]))
 					# for w in self.weights:
-					# 	print "weights[%s] = %f" % (w, float(self.weights[w]))
+					# 	print("weights[%s] = %f" % (w, float(self.weights[w])))
 
 					# TUPLE = (score, loss)
 					score, loss = self.evaluate(features, weight)
@@ -379,19 +364,17 @@ class PredictPD():
 					avgLoss += loss
 					totalEx += 1
 				matchNum += 1
-			print ("Average loss: {}".format(avgLoss / totalEx))
+			#print ("Average loss: {}".format(avgLoss / totalEx))
 
 	# Testing
 	#	Predict, then compare with dev/test set (r-16 games)
 	def test(self):
 		# sum up average error
-
 		print ("Testing")
 		print ("-------")
 		avgLoss = 0
 		totalEx = 0
 		matchNum = 0
-
 		# uncomment below if testing on round of 16
 		matchday = "r-16"
 
@@ -400,7 +383,7 @@ class PredictPD():
 
 		# uncommend below if testing on semi-finals
 		# matchday = "s-finals"
-		print ("On " + matchday)
+		#print ("On " + matchday)
 		path = self.folder + matchday + "/networks/"
 		# iterate over games
 		for network in os.listdir(path):
@@ -411,17 +394,17 @@ class PredictPD():
 
 				teamName = self.getTeamNameFromNetwork(network)
 				matchID = self.getMatchIDFromFile(network)
-				print ("team: " + teamName)
+				#print ("team: " + teamName)
 				for players in edgeFile:
 					p1, p2, weight = players.rstrip().split("\t")
-					print ("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight)))
+					#print ("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight)))
 
 					features = self.featureExtractor(teamName, p1, p2, matchID, matchNum, weight)
 
-					for f in features:
-						print ("features[{}] = {}".format(f, float(features[f])))
-					for w in self.weights:
-						print (("weights[{}] = {}").format(w, float(self.weights[w])))
+					# for f in features:
+					# 	print ("features[{}] = {}".format(f, float(features[f])))
+					# for w in self.weights:
+					# 	print (("weights[{}] = {}").format(w, float(self.weights[w])))
 
 					score, loss = self.evaluate(features, weight)
 
