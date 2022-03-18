@@ -127,10 +127,10 @@ def setup(start, end):
         line[-1] += "-success"
 
         # making index -> num/stats dicts
-        for index in xrange(len(line) - 9):
+        for index in range(len(line) - 9):
             index_to_num[index] = line[index]
         offset = len(line) - 9
-        for index in xrange(len(line)-9, len(line)):
+        for index in range(len(line)-9, len(line)):
             index_to_stats[index-offset] = line[index]
 
 #################################################
@@ -177,7 +177,7 @@ def store_edges(start, end):
             # print "split is", split
 
             # store passing edges
-            for index in xrange(len(split) - 9):
+            for index in range(len(split) - 9):
                 if split[index] != '' and split[index] != '-':
                     player2 = index_to_num[index]
                     passing_edges[num][player2] = split[index]
@@ -213,16 +213,16 @@ def store_edges(start, end):
                 else:
                     total_stats_processed.append(stat)
             # TODO JADE
-            print total_stats_processed
+            print(total_stats_processed)
             pass_compl = total_stats_processed[-3]
             pass_attem = total_stats_processed[-2]
             pass_perc = total_stats_processed[-1]
-            print "pass vol: %s, pass perc: %s" % (pass_attem, pass_perc)
+            print(("pass vol: %s, pass perc: %s" % (pass_attem, pass_perc)))
 
             offset = len(split) - 9
-            for index in xrange(len(total_stats_processed)):
+            for index in range(len(total_stats_processed)):
                 total_passes_received_by_stats[index+offset] = total_stats_processed[index]
-            print total_passes_received_by_stats
+            print(total_passes_received_by_stats)
 
 #################################################
 # get_team_names()
@@ -281,8 +281,8 @@ def print_player_stats(team):
 
         # for i in xrange(len(player_stats[player])):
         p_stats = player_stats[player][-3:]
-        print "p_stats are", p_stats
-        for i in xrange(3):
+        print(("p_stats are", p_stats))
+        for i in range(3):
             line += "%s," % (p_stats[i])
         line = line[:-1] # get rid of last comma
         line += "\n"

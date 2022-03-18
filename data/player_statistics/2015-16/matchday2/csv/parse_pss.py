@@ -47,85 +47,85 @@ def get_start_end_index(i, j, lines):
     start = 0
     end = 0
     for index, line in enumerate(lines[i:j]):
-		if "M,G,T" in line:
-			if start == 0:
-				start = index
-			else:
-				end = index
-				return (start + i, end + i)
-		if "M,Minutes played" in line:
-			end = index
-			return (start + i, end + i)
+        if "M,G,T" in line:
+            if start == 0:
+                start = index
+            else:
+                end = index
+                return (start + i, end + i)
+        if "M,Minutes played" in line:
+            end = index
+            return (start + i, end + i)
 
 # print csv_files
 
 
 def print_player_line(start, end, rev, outfile):
 
-	for i in xrange(start + 1, end):
-		line = pss[i]
-		# get rid of leading commas
-		line = re.sub("^,*","", line)
+    for i in range(start + 1, end):
+        line = pss[i]
+        # get rid of leading commas
+        line = re.sub("^,*","", line)
 
-		stats = line.rstrip().split(",")
-		if rev: # for team2, move name & number to the front
-			stats =  [stats[-1]] + [stats[-2]] + stats[:-2]
-		
-		# index 0 = player name
-		# index 1 = player number
-		# index 2-13 = features
-		name = stats[0]
-		num = stats[1]
-		player_line = num +  ","
-		if len(stats) > 2:
-			time = stats[2]
-			
-			time = re.sub("\"", "", time)
-			if time != '':
-				if "\'" in time:
-					hour, mins = time.split("\'")
-				else: # no minutes to parse out
-					hour = time
-					mins = 0
-				hour = float(hour)
-				mins = float(mins) / 60
-				time = hour + mins
-			  	player_line += "1:" + str(time) + ","
-		offset = 3
-		for j in xrange(offset, len(stats)):
-			if stats[j] != "":
-				player_line += "%s:%s," % (j - 1, stats[j])
-		player_line = player_line[:-1] # get rid of extra comma
-		outfile.write(player_line + "\n")
+        stats = line.rstrip().split(",")
+        if rev: # for team2, move name & number to the front
+            stats =  [stats[-1]] + [stats[-2]] + stats[:-2]
+        
+        # index 0 = player name
+        # index 1 = player number
+        # index 2-13 = features
+        name = stats[0]
+        num = stats[1]
+        player_line = num +  ","
+        if len(stats) > 2:
+            time = stats[2]
+            
+            time = re.sub("\"", "", time)
+            if time != '':
+                if "\'" in time:
+                    hour, mins = time.split("\'")
+                else: # no minutes to parse out
+                    hour = time
+                    mins = 0
+                hour = float(hour)
+                mins = float(mins) / 60
+                time = hour + mins
+                player_line += "1:" + str(time) + ","
+        offset = 3
+        for j in range(offset, len(stats)):
+            if stats[j] != "":
+                player_line += "%s:%s," % (j - 1, stats[j])
+        player_line = player_line[:-1] # get rid of extra comma
+        outfile.write(player_line + "\n")
 
 for csv in csv_files:
-	pss = [line for line in open(csv, 'r')]
-	prefix = re.sub(".csv", "", csv)
-	# get team names
-	team1, team2 =  get_team_names(pss)
-	team1_outfile = open(prefix + "-" + team1, 'w+')
-	team2_outfile = open(prefix + "-" + team2, 'w+')
+    pss = [line for line in open(csv, 'r')]
+    prefix = re.sub(".csv", "", csv)
+    # get team names
+    team1, team2 =  get_team_names(pss)
+    team1_outfile = open(prefix + "-" + team1, 'w+')
+    team2_outfile = open(prefix + "-" + team2, 'w+')
 
 
-	# team 1
-	start, end =  get_start_end_index(0, len(pss), pss)
-	print_player_line(start, end, False, team1_outfile)
+    # team 1
+    start, end =  get_start_end_index(0, len(pss), pss)
+    print_player_line(start, end, False, team1_outfile)
 
-	# team 2
-	start2, end2 = get_start_end_index(end, len(pss), pss)
-	print_player_line(start2, end2, True, team2_outfile)
+    # team 2
+    start2, end2 = get_start_end_index(end, len(pss), pss)
+    print_player_line(start2, end2, True, team2_outfile)
 
-	label_line = pss[start]
+    label_line = pss[start]
 
-	# get rid of leading & trailing commas
-	label_line = re.sub("^,*","", label_line)
-	label_line = re.sub(",*$","", label_line)
+    # get rid of leading & trailing commas
+    label_line = re.sub("^,*","", label_line)
+    label_line = re.sub(",*$","", label_line)
 
-	# make array of feature num -> feature name as String
-	labels = label_line.rstrip().split(",")
-	feature_outfile = open(prefix + "-" + "features", 'w+')
-	for i, label in enumerate(labels):
-		feature_outfile.write("%s\t%s\n" % (i + 1, label))
+    # make array of feature num -> feature name as String
+    labels = label_line.rstrip().split(",")
+    feature_outfile = open(prefix + "-" + "features", 'w+')
+    for i, label in enumerate(labels):
+        feature_outfile.write("%s\t%s\n" % (i + 1, label))
 
 
 # TODO do for all csv in directory
