@@ -3,6 +3,7 @@ import math
 import numpy as np
 from collections import defaultdict
 
+
 class NeuralNet():
     def __init__(self):
         self.input_num = 2
@@ -70,12 +71,12 @@ class NeuralNet():
             for i in range(self.input_num + 1):
                 self.hidden_layer[j] += self.w1[i][j] * self.input_layer[i]
             self.hidden_layer[j] = self.sigmoid(self.hidden_layer[j])
-            #print("input " + str(self.input_layer[0]) + "\n")
+            # print("input " + str(self.input_layer[0]) + "\n")
 
         for j in range(self.hidden_num + 1):
             self.output_layer[0] += self.w2[j][0] * self.hidden_layer[j]
         self.output_layer[0] = self.sigmoid(self.output_layer[0])
-        #print("output " + str(self.output_layer[0]))
+        # print("output " + str(self.output_layer[0]))
 
     def backward_propagation(self):
         delta_output = []
@@ -86,7 +87,8 @@ class NeuralNet():
 
         for k in range(self.output_num):
             for j in range(self.hidden_num + 1):
-                self.delta2[j][k] = self.momentum * self.delta2[j][k] + self.learning_rate * delta_output[k] * self.hidden_layer[j]
+                self.delta2[j][k] = self.momentum * self.delta2[j][k] + self.learning_rate * delta_output[k] * \
+                                    self.hidden_layer[j]
                 self.w2[j][k] += self.delta2[j][k]
 
         for j in range(self.hidden_num):
@@ -98,7 +100,8 @@ class NeuralNet():
 
         for j in range(self.hidden_num):
             for i in range(self.input_num + 1):
-                self.delta1[i][j] = self.momentum * self.delta1[i][j] + self.learning_rate * delta_hidden[j] * self.input_layer[i]
+                self.delta1[i][j] = self.momentum * self.delta1[i][j] + self.learning_rate * delta_hidden[j] * \
+                                    self.input_layer[i]
                 self.w1[i][j] += self.delta1[i][j]
 
     def train_neural_net(self):
@@ -116,6 +119,7 @@ class NeuralNet():
             total_error /= 2
             print("epoch: " + str(epoch) + " error: " + str(total_error))
             epoch += 1
+
 
 nn = NeuralNet()
 nn.train_neural_net()
