@@ -25,5 +25,5 @@ Linear predictor with each team having its own set of weights
 
 ```bash
 $ cd predicted
-$ python pdPrediction-team.py
+$ python pdPrediction_team.py
 ```
