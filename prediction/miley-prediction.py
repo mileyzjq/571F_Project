@@ -1,4 +1,5 @@
 import classes
+import miley_neural_net
 import copy
 import os
 import re
@@ -46,7 +47,9 @@ class PredictPD():
         self.team_pass_attempt_feature = classes.CountPassesComplAttempPerTeamFeature("group")
         self.init_team_postion(squad_dir)
 
-    # Average pairwise error over all players in a team
+        self.neural_net = miley_neural_net.NeuralNet()
+
+        # Average pairwise error over all players in a team
     # given prediction and gold
     def evaluate(self, features, weight):
         score = self.calculate_score(features, self.weights)
@@ -264,11 +267,8 @@ class PredictPD():
         print(("Total average loss: {}").format(avg_loss))
         print(("Total examples: {}").format(pass_count))
 
-    def initialize_Neural_Net(self):
-        return 0
-
     def train_Neural_Net(self):
-        iterations = 11
+        iterations = 1100
         self.initialize_match()
         self.initialize_team_status()
 
@@ -292,17 +292,57 @@ class PredictPD():
                 for players in edge_file:
                     p1, p2, weight = players.rstrip().split("\t")
                     features = self.extract_feature(team_name, p1, p2, matchID, weight)
-                    score, loss = self.evaluate(features, weight)
-                    self.update_weights(features, self.weights, int(weight))
+                    score, loss = self.neural_net.evaluate(features, weight)
                     avg_loss += loss
                     pass_count += 1
                 match_count += 1
             print("Match {} - Average loss: {}".format(i, avg_loss / pass_count))
 
+    def test_neural_net(self):
+        # sum up average error
+        print("------- Testing -------")
+        avg_loss = 0
+        pass_count = 0
+        match_count = 0
+        #matchday = "r-16"
+        matchday = "q-finals"
+        path = self.pd_dir + matchday + "/networks/"
+        # matchday = "q-finals"
+        # matchday = "s-finals"
+
+        for network in os.listdir(path):
+            if re.search("-edges", network):
+                edge_file = open(path + network, "r")
+                predict_edge_file = open("../predicted/pred-" + network, "w+")
+                team_name = classes.getTeamNameFromNetwork(network)
+                matchID = re.sub("_.*", "", network)
+
+                for players in edge_file:
+                    p1, p2, weight = players.rstrip().split("\t")
+                    # print ("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight)))
+
+                    features = self.extract_feature(team_name, p1, p2, matchID, weight)
+                    # for f in features:
+                    # 	print ("features[{}] = {}".format(f, float(features[f])))
+                    for w in self.weights:
+                    	print (("weights[{}] = {}").format(w, float(self.weights[w])))
+
+                    score, loss = self.neural_net.test(features, weight)
+                    predict_edge_file.write(p1 + "\t" + p2 + "\t" + str(score) + "\t" + str(loss) + "\n")
+                    avg_loss += loss
+                    pass_count += 1
+                match_count += 1
+
+        print("Average loss: {}".format(avg_loss / pass_count))
+        print(("Total average loss: {}").format(avg_loss))
+        print(("Total examples: {}").format(pass_count))
+
 
 pred = PredictPD()
-pred.train()
-pred.test()
+# pred.train()
+# pred.test()
+pred.train_Neural_Net()
+pred.test_neural_net()
 
 
 # ------------------- extract feature function

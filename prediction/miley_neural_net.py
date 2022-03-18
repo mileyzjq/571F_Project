@@ -5,8 +5,8 @@ from collections import defaultdict
 
 class NeuralNet():
     def __init__(self):
-        self.input_num = 2
-        self.hidden_num = 4
+        self.input_num = 7
+        self.hidden_num = 12
         self.output_num = 1
         self.learning_rate = 0.2
         self.momentum = 0.9
@@ -17,7 +17,6 @@ class NeuralNet():
         self.w2 = []
         self.delta1 = []
         self.delta2 = []
-        self.error = 0.0
         self.train_x1 = [[0, 0], [0, 1], [1, 0], [1, 1]]
         self.train_y1 = [0, 1, 1, 0]
         self.train_x2 = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
@@ -28,6 +27,7 @@ class NeuralNet():
             self.hidden_layer.append(0)
         for i in range(self.output_num):
             self.output_layer.append(0)
+        self.initialize_weights()
 
     def sigmoid(self, x):
         return 2 / (1 + math.exp(-x)) - 1
@@ -58,9 +58,13 @@ class NeuralNet():
             self.delta2.append(tmp)
 
     def initialize_input_layer(self, feature):
-        for i in range(2):
-            # self.input_layer[i] = feature[v]
-            self.input_layer[i] = feature[i]
+        i = 0
+        for v in feature:
+            self.input_layer[i] = float(feature[v])
+            #print("feature: " + str(self.input_layer[i]))
+            i += 1
+        # for i in range(self.input_num):
+        #     self.input_layer[i] = feature[i]
         self.input_layer[self.input_num] = 1
         self.hidden_layer[self.hidden_num] = 1
 
@@ -70,18 +74,16 @@ class NeuralNet():
             for i in range(self.input_num + 1):
                 self.hidden_layer[j] += self.w1[i][j] * self.input_layer[i]
             self.hidden_layer[j] = self.sigmoid(self.hidden_layer[j])
-            #print("input " + str(self.input_layer[0]) + "\n")
 
         for j in range(self.hidden_num + 1):
             self.output_layer[0] += self.w2[j][0] * self.hidden_layer[j]
         self.output_layer[0] = self.sigmoid(self.output_layer[0])
-        #print("output " + str(self.output_layer[0]))
 
-    def backward_propagation(self):
+    def backward_propagation(self, error):
         delta_output = []
         delta_hidden = []
 
-        tmp = 0.5 * (1 - math.pow(self.output_layer[0], 2)) * self.error
+        tmp = 0.5 * (1 - math.pow(self.output_layer[0], 2)) * error
         delta_output.append(tmp)
 
         for k in range(self.output_num):
@@ -101,6 +103,19 @@ class NeuralNet():
                 self.delta1[i][j] = self.momentum * self.delta1[i][j] + self.learning_rate * delta_hidden[j] * self.input_layer[i]
                 self.w1[i][j] += self.delta1[i][j]
 
+    def evaluate(self, feature, expected_value):
+        self.forward_propagation(feature)
+        error = float(expected_value) - self.output_layer[0]
+        loss = math.pow(error, 2) / 2
+        self.backward_propagation(error)
+        return (self.output_layer[0], loss)
+
+    def test(self, feature, expected_value):
+        self.forward_propagation(feature)
+        error = float(expected_value) - self.output_layer[0]
+        loss = math.pow(error, 2) / 2
+        return (self.output_layer[0], loss)
+
     def train_neural_net(self):
         epoch = 0
         total_error = 100
@@ -109,13 +124,11 @@ class NeuralNet():
         while total_error >= 0.05 and epoch < 10000:
             total_error = 0
             for i in range(4):
-                self.forward_propagation(self.train_x1[i])
-                self.error = self.train_y1[i] - self.output_layer[0]
-                total_error += math.pow(self.error, 2)
-                self.backward_propagation()
+                score, loss = self.evaluate(self.train_x1[i], self.train_y1[i])
+                total_error += loss
             total_error /= 2
             print("epoch: " + str(epoch) + " error: " + str(total_error))
             epoch += 1
 
-nn = NeuralNet()
-nn.train_neural_net()
+# nn = NeuralNet()
+# nn.train_neural_net()
