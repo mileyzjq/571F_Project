@@ -331,8 +331,8 @@ class PredictPD():
                     self.teamStatsByMatch[teamName][matchID] = stats
 
     # Training
-    # 	have features calculate numbers based on data
-    # 	learn weights for features via supervised data (group stage games) and SGD/EM
+    #   have features calculate numbers based on data
+    #   learn weights for features via supervised data (group stage games) and SGD/EM
     def train(self):
         # iterate over matchdays, predicting passes, performing SGD, etc.
 
@@ -355,7 +355,7 @@ class PredictPD():
             #print ("Iteration " + int(i))
             print ("------------")
             # for w in self.weights:
-            # 	print "weights[%s] = %f" % (w, float(self.weights[w]))
+            #   print "weights[%s] = %f" % (w, float(self.weights[w]))
             # iterate over matchdays -- hold out on some matchdays
             matchNum = 0
 
@@ -399,9 +399,9 @@ class PredictPD():
                     features = self.featureExtractor(teamName, p1, p2, matchID, matchNum, weight)
 
                     # for f in features:
-                    # 	print "features[%s] = %f" % (f, float(features[f]))
+                    #   print "features[%s] = %f" % (f, float(features[f]))
                     # for w in self.weights[teamName]:
-                    # 	print "weights[%s][%s] = %f" % (teamName, w, float(self.weights[teamName][w]))
+                    #   print "weights[%s][%s] = %f" % (teamName, w, float(self.weights[teamName][w]))
 
                     score, loss = self.evaluate(features, weight, teamName)
                     self.updateWeights(features, self.weights[teamName], int(weight), teamName)
@@ -410,12 +410,12 @@ class PredictPD():
                     avgLoss += loss
                     totalEx += 1
                 matchNum += 1
-            print ("loss: {}".format(avgLoss))
-            print ("totalEx: {}".format(totalEx))
-            print ("Average loss: {}".format(avgLoss / totalEx))
+            print(("loss: {}".format(avgLoss)))
+            print(("totalEx: {}".format(totalEx)))
+            print(("Average loss: {}".format(avgLoss / totalEx)))
 
     # Testing
-    #	Predict, then compare with dev/test set (r-16 games)
+    #   Predict, then compare with dev/test set (r-16 games)
     def test(self):
         # sum up average error
 
@@ -426,7 +426,7 @@ class PredictPD():
         matchNum = 0
         # for matchday in self.matchdays[4:]:
         matchday = "r-16"
-        print ("On " + matchday)
+        print(("On " + matchday))
         path = self.folder + matchday + "/networks/"
         # iterate over games
         for network in os.listdir(path):
@@ -437,17 +437,17 @@ class PredictPD():
 
                 teamName = self.getTeamNameFromNetwork(network)
                 matchID = self.getMatchIDFromFile(network)
-                print ("team: " + teamName)
+                print(("team: " + teamName))
                 for players in edgeFile:
                     p1, p2, weight = players.rstrip().split("\t")
-                    print ("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight)))
+                    print(("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight))))
 
                     features = self.featureExtractor(teamName, p1, p2, matchID, matchNum, weight)
 
                     for f in features:
-                        print ("features[{}] = {}".format(f, float(features[f])))
+                        print(("features[{}] = {}".format(f, float(features[f]))))
                     for w in self.weights[teamName]:
-                        print (("weights[{}][{}] = {}").format(teamName, w, float(self.weights[teamName][w])))
+                        print((("weights[{}][{}] = {}").format(teamName, w, float(self.weights[teamName][w]))))
 
                     score, loss = self.evaluate(features, weight, teamName)
 
@@ -457,9 +457,9 @@ class PredictPD():
                     avgLoss += loss
                     totalEx += 1
                 matchNum += 1
-        print ("Average loss: {}".format(avgLoss / totalEx))
-        print (("avgLosstotal: {}").format(avgLoss))
-        print (("total examples: {}").format(totalEx))
+        print(("Average loss: {}".format(avgLoss / totalEx)))
+        print((("avgLosstotal: {}").format(avgLoss)))
+        print((("total examples: {}").format(totalEx)))
 
 
 pred = PredictPD()

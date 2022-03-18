@@ -117,10 +117,10 @@ def setup(start, end):
         line[-1] += "-success"
 
         # making index -> num/stats dicts
-        for index in xrange(len(line) - 9):
+        for index in range(len(line) - 9):
             index_to_num[index] = line[index]
         offset = len(line) - 9
-        for index in xrange(len(line)-9, len(line)):
+        for index in range(len(line)-9, len(line)):
             index_to_stats[index-offset] = line[index]
 
 #################################################
@@ -165,7 +165,7 @@ def store_edges(start, end):
             split = split[3:]
 
             # store passing edges
-            for index in xrange(len(split) - 9):
+            for index in range(len(split) - 9):
                 if split[index] != '' and split[index] != '-':
                     player2 = index_to_num[index]
                     passing_edges[num][player2] = split[index]
@@ -203,7 +203,7 @@ def store_edges(start, end):
                     total_stats_processed.append(stat)
 
             offset = len(split) - 9 
-            for index in xrange(len(total_stats_processed)):
+            for index in range(len(total_stats_processed)):
                 total_passes_received_by_stats[index+offset] = total_stats_processed[index]
 
 #################################################
@@ -261,7 +261,7 @@ def print_player_stats(team):
     line = ""
     for player in player_stats:
         line += "%s," % player
-        for i in xrange(len(player_stats[player])):
+        for i in range(len(player_stats[player])):
             line += "%s:%s," % (i, player_stats[player][i])
         line = line[:-1] # get rid of last comma
         line += "\n"

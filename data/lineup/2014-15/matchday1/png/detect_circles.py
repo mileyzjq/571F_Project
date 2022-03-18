@@ -36,7 +36,7 @@ for contour in contours:
     center = (int(m['m10'] / m['m00']), int(m['m01'] / m['m00']))
     centers.append(center)
 
-print("There are {} circles".format(len(centers)))
+print(("There are {} circles".format(len(centers))))
 
 radius = int(np.average(radii)) + 5
 
