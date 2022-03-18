@@ -7,7 +7,6 @@ from collections import defaultdict
 class PredictPD():
 
 	def __init__(self):
-
 		# Entire model uses one set of weights
 		self.weights = defaultdict(int)
 		self.stepSize = 0.0092
@@ -92,12 +91,6 @@ class PredictPD():
 		for w in self.weights:
 			self.weights[w] -= self.stepSize * grad[w]
 
-	def getTeamNameFromNetwork(self, network):
-		teamName = re.sub("[^-]*-", "", network, count=1)
-		teamName = re.sub("-edges", "", teamName)
-		teamName = re.sub("_", " ", teamName)
-		return teamName
-
 	def getTeamNameFromFile(self, teamFile):
 		teamName = re.sub("-squad.*", "", teamFile)
 		teamName = re.sub("_", " ", teamName)
@@ -121,7 +114,8 @@ class PredictPD():
 		team1, team2 = self.matches[matchID].split("/")
 		if team1 == teamName:
 			return team2
-		else: return team1
+		else:
+			return team1
 
 	def getMatchday(self, matchID):
 		matchID = int(matchID)
@@ -177,7 +171,7 @@ class PredictPD():
 		# ---
 		
 		# --- Average passes per position, precomputed
-		avgPassesPerPos = self.countPassesPosFeature.getCount(teamName, p_key)
+		#avgPassesPerPos = self.countPassesPosFeature.getCount(teamName, p_key)
 		# ---
 
 		# features["avgPassesPerPos"] = avgPassesPerPos
@@ -249,7 +243,7 @@ class PredictPD():
 			for network in os.listdir(path):
 				if re.search("-edges", network):
 					edgeFile = open(path + network, "r")
-					teamName = self.getTeamNameFromNetwork(network)
+					teamName = classes.getTeamNameFromNetwork(network)
 					matchID = self.getMatchIDFromFile(network)
 
 					m = self.matches[matchID]
@@ -282,7 +276,7 @@ class PredictPD():
 			# iterate over games
 			for network in os.listdir(path):
 				if re.search("-team", network):
-					teamName = self.getTeamNameFromNetwork(network)
+					teamName = classes.getTeamNameFromNetwork(network)
 					teamName = re.sub("-team", "", teamName)
 					matchID = self.getMatchIDFromFile(network)
 
@@ -336,7 +330,7 @@ class PredictPD():
 				path, network = game
 				edgeFile = open(path + network, "r")
 
-				teamName = self.getTeamNameFromNetwork(network)
+				teamName = classes.getTeamNameFromNetwork(network)
 				matchID = self.getMatchIDFromFile(network)
 				# print "team: %s" % teamName
 				for players in edgeFile:
@@ -364,7 +358,7 @@ class PredictPD():
 					avgLoss += loss
 					totalEx += 1
 				matchNum += 1
-			#print ("Average loss: {}".format(avgLoss / totalEx))
+			print ("Average loss: {}".format(avgLoss / totalEx))
 
 	# Testing
 	#	Predict, then compare with dev/test set (r-16 games)
@@ -392,7 +386,7 @@ class PredictPD():
 
 				predEdgeFile = open("../predicted/pred-" + network, "w+")
 
-				teamName = self.getTeamNameFromNetwork(network)
+				teamName = classes.getTeamNameFromNetwork(network)
 				matchID = self.getMatchIDFromFile(network)
 				#print ("team: " + teamName)
 				for players in edgeFile:

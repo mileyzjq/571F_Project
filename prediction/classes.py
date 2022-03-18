@@ -226,7 +226,6 @@ class CountPassesPerPosFeature():
 		self.countsByPos = defaultdict(lambda: defaultdict(float))
 
 		folders = []
-
 		if train_end == "group":
 			folders.append("group/")
 		elif train_end == "r-16":
