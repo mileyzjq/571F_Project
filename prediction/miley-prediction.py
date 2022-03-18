@@ -8,6 +8,7 @@ import math
 import numpy as np
 from collections import defaultdict
 
+
 class PredictPD():
 
     def __init__(self):
@@ -33,8 +34,8 @@ class PredictPD():
         rank_dir = "../data/rankings/2013_14_rankings.txt"
         game_pos_dir = "../data/games_by_pos/perTeam/"
         self.matchday = ["matchday" + str(i) for i in range(1, 7)]
-        #self.matchday.append("r-16")
-        #self.matchday.append("q-finals")
+        # self.matchday.append("r-16")
+        # self.matchday.append("q-finals")
 
         # Initialize features
         self.count_avg_pass_feature = classes.CountAvgPassesFeature(counts_dir)
@@ -62,7 +63,7 @@ class PredictPD():
         for v in features:
             score += float(features[v]) * float(weights[v])
         return score
-    
+
     def calculate_gradient_loss(self, features, weights, label):
         scalar = 2 * self.calculate_score(features, weights) - label
         mult = copy.deepcopy(features)
@@ -75,7 +76,7 @@ class PredictPD():
     def update_weights(self, features, weights, label):
         grad = self.calculate_gradient_loss(features, weights, label)
         for w in self.weights:
-            self.delta_weights[w] = self.learning_rate * grad[w] + self.delta_weights[w]*self.momentum
+            self.delta_weights[w] = self.learning_rate * grad[w] + self.delta_weights[w] * self.momentum
             self.weights[w] -= self.delta_weights[w]
 
     def init_team_postion(self, squad_dir):
@@ -255,7 +256,7 @@ class PredictPD():
                     # for f in features:
                     # 	print ("features[{}] = {}".format(f, float(features[f])))
                     for w in self.weights:
-                    	print (("weights[{}] = {}").format(w, float(self.weights[w])))
+                        print(("weights[{}] = {}").format(w, float(self.weights[w])))
 
                     score, loss = self.evaluate(features, weight)
                     predict_edge_file.write(p1 + "\t" + p2 + "\t" + str(score) + "\t" + str(loss) + "\n")
@@ -343,7 +344,6 @@ pred = PredictPD()
 # pred.test()
 pred.train_Neural_Net()
 pred.test_neural_net()
-
 
 # ------------------- extract feature function
 
