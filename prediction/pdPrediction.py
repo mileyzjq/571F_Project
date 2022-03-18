@@ -9,7 +9,7 @@ class PredictPD():
 	def __init__(self):
 		# Entire model uses one set of weights
 		self.weights = defaultdict(int)
-		self.stepSize = 0.0092
+		self.stepSize = 0.009
 
 		# -------- Initialize directory paths --------
 		self.data_dir = "../data/"
