@@ -10,7 +10,7 @@ import torch
 from torchvision import datasets, models, transforms
 from torch.utils.data.sampler import SubsetRandomSampler
 from torch.utils.data import Dataset
-from prediction.util import NeuralData, NeuralModel, train_neural_model, load_dataset
+from prediction.trainer import NeuralData, NeuralModel, train_neural_model, load_dataset
 
 
 parser = argparse.ArgumentParser(description='Soccer')
