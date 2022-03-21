@@ -1,15 +1,13 @@
 import sys
+# append the path
 sys.path.append("/Users/michaelma/desktop/workspace/School/ubc/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project")
-
 
 import argparse
 import time
 from pathlib import Path
-
+import torch
 import torch.nn as nn
 import torch.optim as optim
-
-import torch
 from prediction.trainer import NeuralData, NeuralModel, train_neural_model, load_dataset
 
 parser = argparse.ArgumentParser(description='Soccer')
