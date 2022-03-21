@@ -4,10 +4,9 @@
 **Goal:** Based on games from the group stage, predict passing distributions
 for games in the round of 16 stage
 
-**To duplicate our results or run experiments of your own with our linear
-predictor:** 
-
-Tao predictor
+Current directories
+- <code>data/processed/player_data.csv</code> contains retrieved data
+- <code>data/processed/trained</code> contains trained model
 
 To run
 ```bash
@@ -41,3 +40,4 @@ optional arguments:
   --epoch EPOCH         epoch number
   --name NAME           Name of the model
 ```
+
