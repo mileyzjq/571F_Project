@@ -4,26 +4,40 @@
 **Goal:** Based on games from the group stage, predict passing distributions
 for games in the round of 16 stage
 
-**To duplicate our results or run experiments of your own with our linear
-predictor:** 
+Current directories
+- <code>data/processed/player_data.csv</code> contains retrieved data
+- <code>data/processed/trained</code> contains trained model
 
-BaseLine predictor
-
+To run
 ```bash
-$ cd predicted
-$ python baseline.py
+$ cd prediction
+$ python tao_prediction.py
 ```
 
-Linear predictor with entire model sharing one set of weights
+and supply with necessary arguments
 
-```bash
-$ cd predicted
-$ python pdPrediction.py
+```
+usage: tao_prediction.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
+                         [--weight_path WEIGHT_PATH] [--mode MODE]
+                         [--valid_size VALID_SIZE]
+                         [--learning_rate LEARNING_RATE] [--epoch EPOCH]
+                         [--name NAME]
+
+Soccer
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --input_path INPUT_PATH
+                        The input data
+  --out_path OUT_PATH   Path to save the data
+  --weight_path WEIGHT_PATH
+                        Path to save the data
+  --mode MODE           Select whether to train, evaluate, inference the model
+  --valid_size VALID_SIZE
+                        Proportion of data used as validation set
+  --learning_rate LEARNING_RATE
+                        Default learning rate
+  --epoch EPOCH         epoch number
+  --name NAME           Name of the model
 ```
 
-Linear predictor with each team having its own set of weights
-
-```bash
-$ cd predicted
-$ python pdPrediction_team.py
-```
