@@ -12,7 +12,7 @@ from prediction.trainer import NeuralData, NeuralModel, train_neural_model, load
 
 parser = argparse.ArgumentParser(description='Soccer')
 parser.add_argument('--input_path',
-                    default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/data/processed/player_data.csv',
+                    default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/data/processed/player_data2.csv',
                     type=str, help='The input data')
 parser.add_argument('--out_path',
                     default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/trained',
@@ -36,19 +36,22 @@ else:
 
 if args.mode.__eq__("train"):
     data_path = args.input_path
-    train_data = NeuralData(data_path)
+    desired_key_name = ["avg_pass","check_same_postion","check_diff_rank",
+        "avg_pass_position","mean_degree","between_P1","avg_pass_percentage_P1"]
+    train_data = NeuralData(data_path, desired_key_name)
     train_dataloader, val_dataloader, dataset_size = load_dataset(train_data, args.valid_size)
     dataloaders = {"train": train_dataloader, "val": val_dataloader}
     data_sizes = {x: len(dataloaders[x].sampler) for x in ['train', 'val']}
 
     saved_path = Path(args.out_path)
+
     saved_path = saved_path.joinpath("{}_{}.pth".format(args.name, time.time()))
 
     learning_rate = args.learning_rate
 
     epoch = args.epoch
 
-    model = NeuralModel(6, 128, 1)
+    model = NeuralModel(7, 128, 1)
 
     criterion = nn.MSELoss()
 
