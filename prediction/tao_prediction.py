@@ -1,6 +1,6 @@
 import sys
 # append the path
-sys.path.append("/Users/michaelma/desktop/workspace/School/ubc/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project")
+sys.path.append("571F_Project")
 
 import argparse
 import time
@@ -12,13 +12,13 @@ from prediction.trainer import NeuralData, NeuralModel, train_neural_model, load
 
 parser = argparse.ArgumentParser(description='Soccer')
 parser.add_argument('--input_path',
-                    default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/data/processed/player_data2.csv',
+                    default='../data/processed/player_data2.csv',
                     type=str, help='The input data')
 parser.add_argument('--out_path',
-                    default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/trained',
+                    default='../trained',
                     type=str, help='Path to save the data')
 parser.add_argument('--weight_path',
-                    default='/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/trained/soccer_1647883884.187955.pth',
+                    default='../trained/soccer_1647883884.187955.pth',
                     type=str, help='Path to save the data')
 parser.add_argument('--mode', default='train', type=str, help='Select whether to train, evaluate, inference the model')
 parser.add_argument('--valid_size', default=0.2, type=float, help='Proportion of data used as validation set')
