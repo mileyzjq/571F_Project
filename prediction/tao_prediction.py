@@ -8,11 +8,13 @@ from pathlib import Path
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from prediction.trainer import NeuralData, NeuralModel, train_neural_model, load_dataset
+from prediction.trainer import train_neural_model, load_dataset
+from model.model import NeuralModel, LinearRegression, LogisticRegressionModel
+from data.data import NeuralData
 
 parser = argparse.ArgumentParser(description='Soccer')
 parser.add_argument('--input_path',
-                    default='../data/processed/player_data2.csv',
+                    default='../data/processed/processed_feature.csv',
                     type=str, help='The input data')
 parser.add_argument('--out_path',
                     default='../trained',
@@ -36,8 +38,9 @@ else:
 
 if args.mode.__eq__("train"):
     data_path = args.input_path
-    desired_key_name = ["avg_pass","check_same_postion","check_diff_rank",
-        "avg_pass_position","mean_degree","between_P1","avg_pass_percentage_P1"]
+    # desired_key_name = ["avg_pass","check_same_postion","check_diff_rank", "avg_pass_position","mean_degree","between_P1","avg_pass_percentage_P1"]
+    desired_key_name = ["avgPasses","isSamePos","diffInRank","meanDegree","betwPerGameP1","betwPerGameP2",
+                        "avgPassComplPerP1","avgPassComplPerP2","avgPassAttempPerP1","avgPassAttempPerP2","avgPCPercPerP1","avgPCPercPerP2"]
     train_data = NeuralData(data_path, desired_key_name)
     train_dataloader, val_dataloader, dataset_size = load_dataset(train_data, args.valid_size)
     dataloaders = {"train": train_dataloader, "val": val_dataloader}
@@ -51,7 +54,7 @@ if args.mode.__eq__("train"):
 
     epoch = args.epoch
 
-    model = NeuralModel(7, 128, 1)
+    model = NeuralModel(12, 256, 1)
 
     criterion = nn.MSELoss()
 
