@@ -329,9 +329,7 @@ class PredictPD:
                     if re.search("-edges", network):
                         # passesBetweenPos = defaultdict(lambda: defaultdict(int))
                         allGames.append((path, network))
-
-            # try shuffling games
-            # random.shuffle(allGames)
+ls
 
             for game in allGames:
                 path, network = game
