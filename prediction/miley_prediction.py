@@ -1,4 +1,5 @@
-import classes
+import miley_classes as classes
+#import classes
 import copy
 import os
 import re
@@ -50,35 +51,6 @@ class PredictPD():
         self.team_pass_attempt_feature = classes.CountPassesComplAttempPerTeamFeature("group")
         self.init_team_postion(squad_dir)
 
-        # Average pairwise error over all players in a team
-    # given prediction and gold
-    def evaluate(self, features, weight):
-        score = self.calculate_score(features, self.weights)
-        loss = (score - float(weight)) ** 2
-        return (score, loss)
-
-    # score is dot product of features & weights
-    def calculate_score(self, features, weights):
-        score = 0.0
-        for v in features:
-            score += float(features[v]) * float(weights[v])
-        return score
-
-    def calculate_gradient_loss(self, features, weights, label):
-        scalar = 2 * self.calculate_score(features, weights) - label
-        mult = copy.deepcopy(features)
-        for f in mult:
-            mult[f] = float(mult[f])
-            mult[f] *= scalar
-        return mult
-
-    # use SGD to update weights
-    def update_weights(self, features, weights, label):
-        grad = self.calculate_gradient_loss(features, weights, label)
-        for w in self.weights:
-            self.delta_weights[w] = self.learning_rate * grad[w] + self.delta_weights[w] * self.momentum
-            self.weights[w] -= self.delta_weights[w]
-
     def init_team_postion(self, squad_dir):
         for team in os.listdir(squad_dir):
             if re.search("-squad", team):
@@ -95,27 +67,6 @@ class PredictPD():
             return team2
         else:
             return team1
-
-    def get_matchday(self, matchID):
-        matchID = int(matchID)
-        if matchID <= 2014322:
-            return 0
-        elif matchID >= 2014323 and matchID <= 2014338:
-            return 1
-        elif matchID >= 2014339 and matchID <= 2014354:
-            return 2
-        elif matchID >= 2014355 and matchID <= 2014370:
-            return 3
-        elif matchID >= 2014371 and matchID <= 2014386:
-            return 4
-        elif matchID >= 2014387 and matchID <= 2014402:
-            return 5
-        elif matchID >= 2014403 and matchID <= 2014418:
-            return 6
-        elif matchID >= 2014419 and matchID <= 2014426:
-            return 7
-        elif matchID >= 2014427 and matchID <= 2014430:
-            return 8
 
     def extract_feature(self, team_name, p1, p2, matchID, weight):
         features = defaultdict(float)
@@ -201,10 +152,6 @@ class PredictPD():
         output_list = []
 
         for i in range(iterations):
-            avg_loss = 0
-            pass_count = 0
-            # for w in self.weights:
-            # 	print ("weights[{}] = {}".format(w, float(self.weights[w])))
             match_count = 0
             games = []
 
@@ -222,108 +169,14 @@ class PredictPD():
                 for players in edge_file:
                     p1, p2, target = players.rstrip().split("\t")
                     features = self.extract_feature(team_name, p1, p2, matchID, target)
-                    score, loss = self.evaluate(features, target)
-                    self.update_weights(features, self.weights, float(target))
-
                     features["p1"] = p1
                     features["p2"] = p2
                     features["target"] = target
                     features["check_diff_rank"] = 1 if features["check_diff_rank"] else 0
                     output_list.append(features)
-                    avg_loss += loss
-                    pass_count += 1
                 match_count += 1
             util.toCSV(output_list, self.save_file_dir)
             print("Save {} entry".format(len(output_list)))
-            print("Match {} - Average loss: {}".format(i, avg_loss / pass_count))
-
-    # Testing
-    #	Predict, then compare with dev/test set (r-16 games)
-    def test(self):
-        # sum up average error
-        print("------- Testing -------")
-        avg_loss = 0
-        pass_count = 0
-        match_count = 0
-        matchday = "r-16"
-        path = self.pd_dir + matchday + "/networks/"
-        # matchday = "q-finals"
-        # matchday = "s-finals"
-
-        for network in os.listdir(path):
-            if re.search("-edges", network):
-                edge_file = open(path + network, "r")
-                predict_edge_file = open("../predicted/pred-" + network, "w+")
-                team_name = classes.getTeamNameFromNetwork(network)
-                matchID = re.sub("_.*", "", network)
-
-                for players in edge_file:
-                    p1, p2, weight = players.rstrip().split("\t")
-                    # print ("p1: {}, p2: {}, weight: {}".format(p1, p2, float(weight)))
-
-                    features = self.extract_feature(team_name, p1, p2, matchID, weight)
-                    # for f in features:
-                    # 	print ("features[{}] = {}".format(f, float(features[f])))
-                    for w in self.weights:
-                        print(("weights[{}] = {}").format(w, float(self.weights[w])))
-
-                    score, loss = self.evaluate(features, weight)
-                    predict_edge_file.write(p1 + "\t" + p2 + "\t" + str(score) + "\t" + str(loss) + "\n")
-                    avg_loss += loss
-                    pass_count += 1
-                match_count += 1
-
-        print("Average loss: {}".format(avg_loss / pass_count))
-        print(("Total average loss: {}").format(avg_loss))
-        print(("Total examples: {}").format(pass_count))
 
 pred = PredictPD()
 pred.train()
-pred.test()
-#pred.train_Neural_Net()
-#pred.test_neural_net()
-
-# ------------------- extract feature function
-
-# features["avg_pass_position"] = self.pass_position_feature.getCount(team_name, p_key)
-# avgPassCompl = self.team_pass_attempt_feature.getPCCount(team_name, match_count)
-# avgPassAttem = self.team_pass_attempt_feature.getPACount(team_name, match_count)
-# features["avg_pass_percentage_P1"] = self.team_pass_attempt_feature.getPCPerc(team_name, match_count)
-# avgPassFail = avgPassCompl - avgPassAttem
-#
-# oppAvgPassCompl = self.team_pass_attempt_feature.getPCCount(rival_team, match_count)
-# oppAvgPassAttem = self.team_pass_attempt_feature.getPACount(rival_team, match_count)
-# oppAvgPassPerc = self.team_pass_attempt_feature.getPCPerc(rival_team, match_count)
-# oppAvgPassFail = oppAvgPassCompl - oppAvgPassAttem
-#
-# # for feature: won against a similar ranking team
-# # 1. define history that we are able to use, i.e. previous games
-# history = self.teamPlayedWith[team_name][:matchday]
-
-# if len(history) > 0:
-#     def computeSim(rank1, rank2):
-#         return (rank1 ** 2 + rank2 ** 2) ** 0.5
-#
-#     # 2. find most similar opponent in terms of rank
-#     # TODO: similarity could be defined better?
-#     oppTeamRank = self.rank_feature.getRank(rival_team)
-#     simTeam = ""
-#     simTeamDistance = float('inf')
-#     rank1 = oppTeamRank
-#     for team in history:
-#         rank2 = self.rank_feature.getRank(team)
-#         sim = computeSim(rank1, rank2)
-#         if sim < simTeamDistance:
-#             simTeamDistance = sim
-#             simTeam = sim
-# 3. find out whether the game was won or lost
-# features["wonAgainstSimTeam"] = self.teamWonAgainst[team_name][matchday]
-
-# features["betwPerGameP2"] = self.betweeness_feature.getBetweenCentr(matchID, team_name, p2)
-
-# features["avgPassComplPerP1"] = self.pass_attempt_feature.getPC(team_name, p1)
-# features["avgPassComplPerP2"] = self.pass_attempt_feature.getPC(team_name, p2)
-# features["avgPassAttempPerP1"] = self.pass_attempt_feature.getPA(team_name, p1)
-# features["avgPassAttempPerP2"] = self.pass_attempt_feature.getPA(team_name, p2)
-# features["avgPCPercPerP1"] = self.pass_attempt_feature.getPCPerc(team_name, p1)
-# features["avgPCPercPerP2"] = self.pass_attempt_feature.getPCPerc(team_name, p2)
