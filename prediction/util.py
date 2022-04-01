@@ -1,5 +1,19 @@
 import _pickle as pickle
 import csv
+import matplotlib.pyplot as plt
+
+
+def toFig(loss_rec, saved_path, added_name=""):
+    train_loss = loss_rec["train"]
+    val_loss = loss_rec["val"]
+    epoch = len(train_loss)
+    plt.plot(range(epoch), train_loss, label="train loss")
+    plt.plot(range(epoch), val_loss, label="val loss")
+    plt.title("{} Loss".format(added_name))
+    plt.xlabel("Epoch")
+    plt.ylabel("Metrics")
+    plt.legend(loc='upper right')
+    plt.savefig(saved_path)
 
 
 def fromCSV(saved_path):
@@ -41,4 +55,3 @@ def fromPickle(path):
     with open(path, 'rb') as handle:
         obj = pickle.load(handle)
     return obj
-

@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from prediction.trainer import train_neural_model, load_dataset
+from prediction import util
 from model.model import NeuralModel, LinearRegression, LogisticRegressionModel
 from data.data import NeuralData
 
@@ -21,6 +22,9 @@ parser.add_argument('--out_path',
                     type=str, help='Path to save the data')
 parser.add_argument('--weight_path',
                     default='../trained/soccer_1647883884.187955.pth',
+                    type=str, help='Path to save the data')
+parser.add_argument('--img_path',
+                    default='../image',
                     type=str, help='Path to save the data')
 parser.add_argument('--mode', default='train', type=str, help='Select whether to train, evaluate, inference the model')
 parser.add_argument('--valid_size', default=0.2, type=float, help='Proportion of data used as validation set')
@@ -39,8 +43,9 @@ else:
 if args.mode.__eq__("train"):
     data_path = args.input_path
     # desired_key_name = ["avg_pass","check_same_postion","check_diff_rank", "avg_pass_position","mean_degree","between_P1","avg_pass_percentage_P1"]
-    desired_key_name = ["avgPasses","isSamePos","diffInRank","meanDegree","betwPerGameP1","betwPerGameP2",
-                        "avgPassComplPerP1","avgPassComplPerP2","avgPassAttempPerP1","avgPassAttempPerP2","avgPCPercPerP1","avgPCPercPerP2"]
+    # desired_key_name = ["avgPasses","isSamePos","diffInRank","meanDegree","betwPerGameP1","betwPerGameP2",
+    #                     "avgPassComplPerP1","avgPassComplPerP2","avgPassAttempPerP1","avgPassAttempPerP2","avgPCPercPerP1","avgPCPercPerP2"]
+    desired_key_name = ["avgPasses", "isSamePos", "diffInRank", "betwPerGameP1","betwPerGameP2", "avgPassComplPerP1","avgPassComplPerP2"]
     train_data = NeuralData(data_path, desired_key_name)
     train_dataloader, val_dataloader, dataset_size = load_dataset(train_data, args.valid_size)
     dataloaders = {"train": train_dataloader, "val": val_dataloader}
@@ -50,11 +55,15 @@ if args.mode.__eq__("train"):
 
     saved_path = saved_path.joinpath("{}_{}.pth".format(args.name, time.time()))
 
+    img_path = Path(args.img_path)
+
+    train_result_path = img_path.joinpath("train_loss_{}.png".format(time.time()))
+
     learning_rate = args.learning_rate
 
     epoch = args.epoch
 
-    model = NeuralModel(12, 256, 1)
+    model = NeuralModel(7, 256, 1)
 
     criterion = nn.MSELoss()
 
@@ -63,8 +72,10 @@ if args.mode.__eq__("train"):
     best_model, loss = train_neural_model(device, model, criterion, optimizer, dataloaders, epoch)
 
     torch.save(best_model.state_dict(), saved_path)
-
     print("Prediction Model saved to {}".format(saved_path))
+
+    util.toFig(loss, train_result_path)
+
 
 elif args.mode.__eq__("eval"):
     print("to eval")
