@@ -3,59 +3,60 @@ import os
 import re
 import snap
 
-def getMatchIDFromFile(network):
-	matchID = re.sub("_.*", "", network)
-	return matchID
+def getmatch_IDFromFile(network):
+	match_ID = re.sub("_.*", "", network)
+	return match_ID
 
-def getTeamNameFromNetwork(network):
-	teamName = re.sub("[^-]*-", "", network, count=1)
-	teamName = re.sub("-edges", "", teamName)
-	teamName = re.sub("_", " ", teamName)
-	return teamName
+
+def getteam_nameFromNetwork(network):
+	team_name = re.sub("[^-]*-", "", network, count=1)
+	team_name = re.sub("-edges", "", team_name)
+	team_name = re.sub("_", " ", team_name)
+	return team_name
 
 class CountAvgPassesFeature():
-	def __init__(self, count_file_name):
-		self.avgCounts = defaultdict(lambda: defaultdict(float))
+	def __init__(self, count_file_name):a
+		self.avg_count = defaultdict(lambda: defaultdict(float))
 		count_file = open(count_file_name, "r")
 		for line in count_file:
 			team, players, weight = line.strip().split(", ")
-			self.avgCounts[team][players] = weight
+			self.avg_count[team][players] = weight
 
 	def getCount(self, team, player1, player2):
 		p_key = player1 + "-" + player2
-		return self.avgCounts[team][p_key]
+		return self.avg_count[team][p_key]
 
 class PlayerPositionFeature():
 	def __init__(self, squad_dir):
 
-		def getTeamNameFromFile(teamFile):
-			teamName = re.sub("-squad.*", "", teamFile)
-			teamName = re.sub("_", " ", teamName)
-			return teamName
+		def getteam_nameFromFile(teamFile):
+			team_name = re.sub("-squad.*", "", teamFile)
+			team_name = re.sub("_", " ", team_name)
+			return team_name
 
-		self.teamNumName = defaultdict(lambda: defaultdict(str))
-		self.teamNumPos = defaultdict(lambda: defaultdict(str))
+		self.team_num_name = defaultdict(lambda: defaultdict(str))
+		self.team_num_pos = defaultdict(lambda: defaultdict(str))
 
 		
 		for team in os.listdir(squad_dir):
 			if re.search("-squad", team):
 				path = squad_dir + team
 				teamFile = open(squad_dir + team, "r")
-				teamName = getTeamNameFromFile(team)
+				team_name = getteam_nameFromFile(team)
 				for player in teamFile:
 					num, name, pos = player.rstrip().split(", ")
-					self.teamNumName[teamName][num] = name
-					self.teamNumPos[teamName][num] = pos
+					self.team_num_name[team_name][num] = name
+					self.team_num_pos[team_name][num] = pos
 
-	def getPos(self, teamName, num):
-		return self.teamNumPos[teamName][num]
+	def getPos(self, team_name, num):
+		return self.team_num_pos[team_name][num]
 
-	def getName(self, teamName, num):
-		return self.teamNumName[teamName][num]
+	def getName(self, team_name, num):
+		return self.team_num_name[team_name][num]
 
-	def isSamePos(self, teamName, num1, num2):
+	def isSamePos(self, team_name, num1, num2):
 		ret = 1
-		if self.getPos(teamName, num1) != self.getPos(teamName, num2):
+		if self.getPos(team_name, num1) != self.getPos(team_name, num2):
 			ret = 0
 		return ret
 
@@ -86,39 +87,39 @@ class MeanDegreeFeature():
 		allGames.append("q-finals")
 		allGames.append("s-finals")
 
-		self.meanDegree = defaultdict(lambda: defaultdict(float))
+		self.mean_degree = defaultdict(lambda: defaultdict(float))
 
 		for matchday in allGames:
 			path = folder + matchday + "/networks/"
 			for network in os.listdir(path):
 				if re.search("-edges", network):
-					edgeFile = open(path + network, "r")
+					edge_file = open(path + network, "r")
 
-					degreePerPlayer = defaultdict(int)
-					teamName = getTeamNameFromNetwork(network)
-					matchID = getMatchIDFromFile(network)
-					# print "team: %s" % teamName
+					degree_per_player = defaultdict(int)
+					team_name = getteam_nameFromNetwork(network)
+					match_ID = getmatch_IDFromFile(network)
+					# print "team: %s" % team_name
 					totalDegree = 0
 
-					for players in edgeFile:
+					for players in _f:
 						p1, p2, weight = players.rstrip().split("\t")
 						# print "p1: %s, p2: %s, weight: %f" % (p1, p2, float(weight))
-						degreePerPlayer[p1] += 1
+						degree_per_player[p1] += 1
 
 					# count number of nodes to take average over team
-					nodeFile = open(path + matchID + "_tpd-" + re.sub(" ", "_", teamName) + "-nodes", "r")
+					nodeFile = open(path + match_ID + "_tpd-" + re.sub(" ", "_", team_name) + "-nodes", "r")
 					players = [line.rstrip() for line in nodeFile]
 					numPlayers = len(players)
 					totalDegree = 0
-					for player in degreePerPlayer:
-						totalDegree += degreePerPlayer[player]
+					for player in degree_per_player:
+						totalDegree += degree_per_player[player]
 
 					avgDegree = totalDegree / numPlayers
-					# print "Avg degree for %s is %f" % (teamName, avgDegree)
-					self.meanDegree[matchID][teamName] = avgDegree
+					# print "Avg degree for %s is %f" % (team_name, avgDegree)
+					self.mean_degree[match_ID][team_name] = avgDegree
 	
-	def getMeanDegree(self, matchID, teamName):
-		return self.meanDegree[matchID][teamName]
+	def getmean_degree(self, match_ID, team_name):
+		return self.mean_degree[match_ID][team_name]
 
 # Returns the average betweenness centrality of each player
 # calculated only using group stage, like average degree
@@ -126,9 +127,6 @@ class BetweennessFeature():
 	def __init__(self):
 		folder = "../data/passing_distributions/2014-15/"
 		allGames = ["matchday" + str(i) for i in range(1, 7)]
-		# allGames.append("r-16")
-		# allGames.append("q-finals")
-		# allGames.append("s-finals")
 
 		self.betweenCentr = defaultdict(lambda: defaultdict(float))
 
@@ -136,15 +134,15 @@ class BetweennessFeature():
 			path = folder + matchday + "/networks/"
 			for network in os.listdir(path):
 				if re.search("-edges", network):
-					edgeFile = open(path + network, "r")
+					_f = open(path + network, "r")
 
-					degreePerPlayer = defaultdict(int)
-					teamName = getTeamNameFromNetwork(network)
-					matchID = getMatchIDFromFile(network)
+					degree_per_player = defaultdict(int)
+					team_name = getteam_nameFromNetwork(network)
+					match_ID = getmatch_IDFromFile(network)
 
-					edges = [line.rstrip() for line in edgeFile]
+					edges = [line.rstrip() for line in _f]
 
-					nodeFile = open(path + matchID + "_tpd-" + re.sub(" ", "_", teamName) + "-nodes", "r")
+					nodeFile = open(path + match_ID + "_tpd-" + re.sub(" ", "_", team_name) + "-nodes", "r")
 					players = [line.rstrip() for line in nodeFile]
 
 					# build each network
@@ -167,15 +165,15 @@ class BetweennessFeature():
 					players_by_between = [(node, Nodes[node]) for node in Nodes]
 					for player in players_by_between:
 						num, betw = player
-						self.betweenCentr[teamName][num] += betw
+						self.betweenCentr[team_name][num] += betw
 
 		# normalize over number of matchdays
-		for teamName in self.betweenCentr:
-			for num in self.betweenCentr[teamName]:
-				self.betweenCentr[teamName][num] /= 6
+		for team_name in self.betweenCentr:
+			for num in self.betweenCentr[team_name]:
+				self.betweenCentr[team_name][num] /= 6
 
-	def getBetweenCentr(self, matchID, teamName, player):
-		return self.betweenCentr[teamName][int(player)]
+	def getBetweenCentr(self, match_ID, team_name, player):
+		return self.betweenCentr[team_name][int(player)]
 
 # average passes completed and attempted per player feature
 # averaged over all group games
@@ -198,31 +196,31 @@ class PassesComplAttempPerPlayerFeature():
 					if re.search("-players", network):
 						playerFile = open(path + network, "r")
 
-						teamName = getTeamNameFromNetwork(network)
-						teamName = re.sub("-players", "", teamName)
-						matchID = getMatchIDFromFile(network)
+						team_name = getteam_nameFromNetwork(network)
+						team_name = re.sub("-players", "", team_name)
+						match_ID = getmatch_IDFromFile(network)
 
 						players = [line.rstrip() for line in playerFile]
 						for player in players:
 							num, pc, pa, percPc = player.split(",")
-							self.pcPerPlayer[teamName][num] += float(pc) / 6.0
-							# print "teamName: %s, num: %s, %f" % (teamName, num, self.pcPerPlayer[teamName][num])
-							self.paPerPlayer[teamName][num] += float(pa) / 6.0
-							self.pcPercPerPlayer[teamName][num] += float(percPc) / 6.0
+							self.pcPerPlayer[team_name][num] += float(pc) / 6.0
+							# print "team_name: %s, num: %s, %f" % (team_name, num, self.pcPerPlayer[team_name][num])
+							self.paPerPlayer[team_name][num] += float(pa) / 6.0
+							self.pcPercPerPlayer[team_name][num] += float(percPc) / 6.0
 
-	def getPC(self, teamName, num):
-		# print "teamName: ", teamName
+	def getPC(self, team_name, num):
+		# print "team_name: ", team_name
 		# print "num: ", num
-		# print self.pcPerPlayer[teamName][num]
-		return self.pcPerPlayer[teamName][num]
+		# print self.pcPerPlayer[team_name][num]
+		return self.pcPerPlayer[team_name][num]
 
-	def getPA(self, teamName, num):
-		return self.pcPerPlayer[teamName][num]
+	def getPA(self, team_name, num):
+		return self.pcPerPlayer[team_name][num]
 
-	def getPCPerc(self, teamName, num):
-		return self.pcPercPerPlayer[teamName][num]
+	def getPCPerc(self, team_name, num):
+		return self.pcPercPerPlayer[team_name][num]
 
-# pre-load passes by position by matchID
+# pre-load passes by position by match_ID
 class CountPassesPerPosFeature():
 	def __init__(self, count_file_dir, train_end):
 		self.countsByPos = defaultdict(lambda: defaultdict(float))
@@ -239,23 +237,23 @@ class CountPassesPerPosFeature():
 			folders.append("q-finals/")
 
 		# total passes per team
-		self.totalCounts = defaultdict(float)
+		self.total_counts = defaultdict(float)
 		for stage in folders:
 			path = count_file_dir + stage
 			for teamByGame in os.listdir(path):
 				if ".DS_Store" not in teamByGame:
 					teamGameFile = open(path + teamByGame, "r")
-					# get teamName from filename
-					teamName = re.sub(".*-", "", teamByGame)
-					teamName = re.sub("_", " ", teamName)
+					# get team_name from filename
+					team_name = re.sub(".*-", "", teamByGame)
+					team_name = re.sub("_", " ", team_name)
 					for line in teamGameFile:
 						pos, weight = line.rstrip().split("\t")
-						self.countsByPos[teamName][pos] += float(weight)
-						self.totalCounts[teamName] += float(weight)
+						self.countsByPos[team_name][pos] += float(weight)
+						self.total_counts[team_name] += float(weight)
 
-		for teamName in self.countsByPos:
-			for pos in self.countsByPos[teamName]:
-				self.countsByPos[teamName][pos] /= self.totalCounts[teamName]
+		for team_name in self.countsByPos:
+			for pos in self.countsByPos[team_name]:
+				self.countsByPos[team_name][pos] /= self.total_counts[team_name]
 
 
 	def getCount(self, team, pos):
@@ -265,9 +263,9 @@ class CountPassesPerPosFeature():
 class CountPassesComplAttempPerTeamFeature():
 	def __init__(self, train_end):
 
-		self.passComplPerTeam = defaultdict(int)
-		self.passAttemPerTeam = defaultdict(int)
-		self.passPercPerTeam = defaultdict(float)
+		self.pass_compl_per_team = defaultdict(int)
+		self.pass_attem_per_team = defaultdict(int)
+		self.pass_perc_per_team = defaultdict(float)
 
 		folder = "../data/passing_distributions/2014-15/"
 
@@ -279,34 +277,30 @@ class CountPassesComplAttempPerTeamFeature():
 			folders.append("r-16/")
 			folders.append("q-finals/")
 
-		# allGames.append("r-16")
-		# allGames.append("q-finals")
-		# allGames.append("s-finals")
-
 		for matchday in allGames:
 			path = folder + matchday + "/networks/"
 			for network in os.listdir(path):
 				if re.search("-team", network):
 					teamFile = open(path + network, "r")
-					teamName = getTeamNameFromNetwork(network)
-					teamName = re.sub("-team", "", teamName)
-					matchID = getMatchIDFromFile(network)
-					# print "teamName is: %s" % teamName
-					# print "matchID is: %s" % matchID
+					team_name = getteam_nameFromNetwork(network)
+					team_name = re.sub("-team", "", team_name)
+					match_ID = getmatch_IDFromFile(network)
+					# print "team_name is: %s" % team_name
+					# print "match_ID is: %s" % match_ID
 					for line in teamFile:
 						stats = line.rstrip().split(", ")
-						self.passComplPerTeam[teamName] += float(stats[0])
-						self.passAttemPerTeam[teamName] += float(stats[1])
-						self.passPercPerTeam[teamName] += float(stats[2])
+						self.pass_compl_per_team[team_name] += float(stats[0])
+						self.pass_attem_per_team[team_name] += float(stats[1])
+						self.pass_perc_per_team[team_name] += float(stats[2])
 	
-	def getPCCount(self, teamName, matchNum):
-		return self.passComplPerTeam[teamName] / (matchNum + 1.0)
+	def getPCCount(self, team_name, matchNum):
+		return self.pass_compl_per_team[team_name] / (matchNum + 1.0)
 
-	def getPACount(self, teamName, matchNum):
-		return self.passAttemPerTeam[teamName] / (matchNum + 1.0)
+	def getPACount(self, team_name, matchNum):
+		return self.pass_attem_per_team[team_name] / (matchNum + 1.0)
 
-	def getPCPerc(self, teamName, matchNum):
-		return self.passPercPerTeam[teamName] / (matchNum + 1.0)
+	def getPCPerc(self, team_name, matchNum):
+		return self.pass_perc_per_team[team_name] / (matchNum + 1.0)
 
-	def getPassFail(self, teamName, matchNum):
-		return self.getPCCount(self, teamName, matchNum) - self.getPACount(self, teamName, matchNum)
+	def getPassFail(self, team_name, matchNum):
+		return self.getPCCount(self, team_name, matchNum) - self.getPACount(self, team_name, matchNum)
