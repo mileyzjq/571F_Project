@@ -13,7 +13,7 @@ def getTeamNameFromNetwork(network):
 	team_name = re.sub("-edges", "", team_name)
 	return re.sub("_", " ", team_name)
 
-def get_network_file_list(is_append, keyword, avoid_word):
+def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
 	folder = "../data/passing_distributions/2014-15/"
 	all_games = ["matchday" + str(i) for i in range(1, 7)]
 	list = []
@@ -44,16 +44,11 @@ class PassesComplAttempPerPlayerFeature():
 			team_name = getTeamNameFromNetwork(network)
 			team_name = re.sub("-players", "", team_name)
 
-			# file = pd.read_csv(path+network, header=None)
-			# #players = [line.rstrip() for line in file]
-			# for index, row in file.iterrows():
-			# 	match, pc, pa, percPc = row
 			playerFile = open(path + network, "r")
 			players = [line.rstrip() for line in playerFile]
 			for player in players:
 				num, pc, pa, percPc = player.split(",")
 				self.pcPerPlayer[team_name][num] += float(pc) / 6.0
-				# print "teamName: %s, num: %s, %f" % (teamName, num, self.pcPerPlayer[teamName][num])
 				self.paPerPlayer[team_name][num] += float(pa) / 6.0
 				self.pcPercPerPlayer[team_name][num] += float(percPc) / 6.0
 		print(self.pcPercPerPlayer)
@@ -82,10 +77,9 @@ class CountAvgPassesFeature():
 class PlayerPositionFeature():
 	def __init__(self, squad_dir):
 
-		def getteam_nameFromFile(teamFile):
-			team_name = re.sub("-squad.*", "", teamFile)
-			team_name = re.sub("_", " ", team_name)
-			return team_name
+		def get_team_name(team_file):
+			team_name = re.sub("-squad.*", "", team_file)
+			return re.sub("_", " ", team_name)
 
 		self.teamNumName = defaultdict(lambda: defaultdict(str))
 		self.teamNumPos = defaultdict(lambda: defaultdict(str))
@@ -94,7 +88,7 @@ class PlayerPositionFeature():
 			if re.search("-squad", team):
 				path = squad_dir + team
 				teamFile = open(squad_dir + team, "r")
-				team_name = getteam_nameFromFile(team)
+				team_name = get_team_name(team)
 				for player in teamFile:
 					num, name, pos = player.rstrip().split(", ")
 					self.teamNumName[team_name][num] = name
@@ -173,62 +167,6 @@ class MeanDegreeFeature():
 	def getMeanDegree(self, matchID, team_name):
 		return self.meanDegree[matchID][team_name]
 
-# Returns the average betweenness centrality of each player
-# calculated only using group stage, like average degree
-class BetweennessFeature():
-	def __init__(self):
-		folder = "../data/passing_distributions/2014-15/"
-		allGames = ["matchday" + str(i) for i in range(1, 7)]
-		# allGames.append("r-16")
-		# allGames.append("q-finals")
-		# allGames.append("s-finals")
-
-		self.betweenCentr = defaultdict(lambda: defaultdict(float))
-
-		for matchday in allGames:
-			path = folder + matchday + "/networks/"
-			for network in os.listdir(path):
-				if re.search("-edges", network):
-					edgeFile = open(path + network, "r")
-
-					degreePerPlayer = defaultdict(int)
-					team_name = getTeamNameFromNetwork(network)
-					matchID = get_match_id(network)
-
-					edges = [line.rstrip() for line in edgeFile]
-
-					nodeFile = open(path + matchID + "_tpd-" + re.sub(" ", "_", team_name) + "-nodes", "r")
-					players = [line.rstrip() for line in nodeFile]
-
-					# build each network
-					PlayerGraph = snap.TNGraph.New()
-					for player in players:
-						num, name = player.split("\t")
-						PlayerGraph.AddNode(int(num))
-					for edge in edges:
-						src, dest, weight = edge.split("\t")
-						src = int(src)
-						dest = int(dest)
-						PlayerGraph.AddEdge(src, dest)
-
-					# calculate betweenness
-					Nodes = snap.TIntFltH()
-					Edges = snap.TIntPrFltH()
-					snap.GetBetweennessCentr(PlayerGraph, Nodes, Edges, 1.0)
-
-					players_by_between = [(node, Nodes[node]) for node in Nodes]
-					for player in players_by_between:
-						num, betw = player
-						self.betweenCentr[team_name][num] += betw
-
-		# normalize over number of matchdays
-		for team_name in self.betweenCentr:
-			for num in self.betweenCentr[team_name]:
-				self.betweenCentr[team_name][num] /= 6
-
-	def getBetweenCentr(self, matchID, team_name, player):
-		return self.betweenCentr[team_name][int(player)]
-
 # pre-load passes by position by matchID
 class CountPassesPerPosFeature():
 	def __init__(self, count_file_dir, train_end):
@@ -265,46 +203,27 @@ class CountPassesPerPosFeature():
 				self.countsByPos[team_name][pos] /= self.totalCounts[team_name]
 
 
-	def getCount(self, team, pos):
+	def getCountPerc(self, team, pos):
 		return self.countsByPos[team][pos]
 
 # pre-load passes completed/attempted
 class CountPassesComplAttempPerTeamFeature():
 	def __init__(self, train_end):
-
+		forder_list = get_network_file_list(False, "-team")
 		self.passComplPerTeam = defaultdict(int)
 		self.passAttemPerTeam = defaultdict(int)
 		self.passPercPerTeam = defaultdict(float)
 
-		folder = "../data/passing_distributions/2014-15/"
+		for (path, network) in forder_list:
+			team_file = open(path + network, "r")
+			team_name = getTeamNameFromNetwork(network)
+			team_name = re.sub("-team", "", team_name)
 
-		allGames = ["matchday" + str(i) for i in range(1, 7)]
-
-		if train_end == "r-16":
-			folders.append("r-16/")
-		elif train_end == "q-finals":
-			folders.append("r-16/")
-			folders.append("q-finals/")
-
-		# allGames.append("r-16")
-		# allGames.append("q-finals")
-		# allGames.append("s-finals")
-
-		for matchday in allGames:
-			path = folder + matchday + "/networks/"
-			for network in os.listdir(path):
-				if re.search("-team", network):
-					teamFile = open(path + network, "r")
-					team_name = getTeamNameFromNetwork(network)
-					team_name = re.sub("-team", "", team_name)
-					matchID = get_match_id(network)
-					# print "team_name is: %s" % team_name
-					# print "matchID is: %s" % matchID
-					for line in teamFile:
-						stats = line.rstrip().split(", ")
-						self.passComplPerTeam[team_name] += float(stats[0])
-						self.passAttemPerTeam[team_name] += float(stats[1])
-						self.passPercPerTeam[team_name] += float(stats[2])
+			for line in team_file:
+				stats = line.rstrip().split(", ")
+				self.passComplPerTeam[team_name] += float(stats[0])
+				self.passAttemPerTeam[team_name] += float(stats[1])
+				self.passPercPerTeam[team_name] += float(stats[2])
 	
 	def getPCCount(self, team_name, matchNum):
 		return self.passComplPerTeam[team_name] / (matchNum + 1.0)
@@ -317,3 +236,90 @@ class CountPassesComplAttempPerTeamFeature():
 
 	def getPassFail(self, team_name, matchNum):
 		return self.getPCCount(self, team_name, matchNum) - self.getPACount(self, team_name, matchNum)
+
+
+def generateGraph(path, network):
+	edge_file = open(path + network, "r")
+	team_name = getTeamNameFromNetwork(network)
+	match_ID = get_match_id(network)
+	edges = [line.rstrip() for line in edge_file]
+	node_file = open(path + match_ID + "_tpd-" + re.sub(" ", "_", team_name) + "-nodes", "r")
+	players = [line.rstrip() for line in node_file]
+	# generate graph
+	graph = snap.TNGraph.New()
+	for player in players:
+		num, name = player.split("\t")
+		graph.AddNode(int(num))
+	for edge in edges:
+		src, dest, weight = edge.split("\t")
+		graph.AddEdge(int(src), int(dest))
+	return graph
+
+# Returns the average betweenness centrality of each player
+# calculated only using group stage, like average degree
+class BetweennessFeature():
+	def __init__(self):
+		forder_list = get_network_file_list(False, "-edges")
+		self.betweeness_centrality = defaultdict(lambda: defaultdict(float))
+
+		for (path, network) in forder_list:
+			graph = generateGraph(path, network)
+			team_name = getTeamNameFromNetwork(network)
+			Nodes, Edges = graph.GetBetweennessCentr(1.0)
+			players = [(node, Nodes[node]) for node in Nodes]
+			for player in players:
+				num, betweeness = player
+				self.betweeness_centrality[team_name][num] += betweeness
+
+		# normalize
+		for team_name in self.betweeness_centrality:
+			for num in self.betweeness_centrality[team_name]:
+				self.betweeness_centrality[team_name][num] /= 6
+
+	def getBetweenCentr(self, team_name, player):
+		return self.betweeness_centrality[team_name][int(player)]
+
+# get GNN closeness centrality feature
+class closenessFeature():
+	def __init__(self):
+		forder_list = get_network_file_list(False, "-edges")
+		self.closeness_centrality = defaultdict(lambda: defaultdict(float))
+
+		for (path, network) in forder_list:
+			graph = generateGraph(path, network)
+			team_name = getTeamNameFromNetwork(network)
+			#get closeness centrality for each player
+			for NI in graph.Nodes():
+				CloseCentr = graph.GetClosenessCentr(NI.GetId())
+				#print("node: %d centrality: %f" % (NI.GetId(), CloseCentr))
+				self.closeness_centrality[team_name][NI.GetId()] = CloseCentr
+
+		# normalize
+		for team_name in self.closeness_centrality:
+			for num in self.closeness_centrality[team_name]:
+				self.closeness_centrality[team_name][num] /= 6
+
+	def get_closeness(self, team_name, player):
+		return self.closeness_centrality[team_name][int(player)]
+
+# get GNN page rank centrality feature
+class pageRankFeature():
+	def __init__(self):
+		forder_list = get_network_file_list(False, "-edges")
+		self.page_rank = defaultdict(lambda: defaultdict(float))
+
+		for (path, network) in forder_list:
+			graph = generateGraph(path, network)
+			team_name = getTeamNameFromNetwork(network)
+			# get page rank centrality for each player
+			PRankH = graph.GetPageRank()
+			for item in PRankH:
+				print(item, PRankH[item])
+				self.page_rank[team_name][item] += PRankH[item]
+
+		for team_name in self.page_rank:
+			for num in self.page_rank[team_name]:
+				self.page_rank[team_name][num] /= 6
+
+	def get_page_rank(self, team_name, player):
+		return self.page_rank[team_name][int(player)]
