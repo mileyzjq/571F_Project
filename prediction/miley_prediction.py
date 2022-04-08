@@ -11,7 +11,7 @@ class PredictPD():
         self.momentum = 0.09
         self.pd_dir = "../data/passing_distributions/2014-15/"
         squad_dir = "../data/squads/2014-15/squad_list/"
-        self.save_file_dir = "../data/processed/player_data2.csv"
+        self.save_file_dir = "../data/processed/player_data3.csv"
         self.matchday = ["matchday" + str(i) for i in range(1, 7)]
         self.weights = defaultdict(float)
         self.delta_weights = defaultdict(float)
@@ -80,16 +80,17 @@ class PredictPD():
         #features["pass_pos_feature_p2"] = self.pass_position_feature.getCountPerc(team_name,self.team_position[team_name][p2])
         return features
 
-    def initialize_team_status(self):
-        forder_list = classes.get_network_file_list(False, "-team")
+    # store match data for all games, including team and opponent team
+    def initialize_match(self):
+        forder_list = classes.get_network_file_list(False, "-edges")
+
         for (path, network) in forder_list:
             team_name = classes.get_team_name(network)
-            team_name = re.sub("-team", "", team_name)
             match_ID = re.sub("_.*", "", network)
-            stats_file = open(path + network, "r")
-            for line in stats_file:
-                stats = line.rstrip().split(", ")
-            self.team_stats[team_name][match_ID] = stats
+            if self.matches[match_ID] == "":
+                self.matches[match_ID] = team_name
+            else:
+                self.matches[match_ID] += "/" + team_name
 
     # Training
     def train(self):
