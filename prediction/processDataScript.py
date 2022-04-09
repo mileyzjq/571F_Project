@@ -59,7 +59,7 @@ class PredictPD:
 
         self.teamStatsByMatch = defaultdict(lambda: defaultdict(list))
 
-        self.save_file_dir = "/Users/taichenl/Documents/EECE571f/571F_Project/processed_feature.csv"
+        self.save_file_dir = "/Users/taichenl/Documents/571F_Project/processed_feature.csv"
 
     # --------------------------------------------
 
@@ -113,45 +113,45 @@ class PredictPD:
                     self.teamNumToPos[teamName][num] = pos
 
     def getMatchIDFromFile(self, network):
-        matchID = re.sub("_.*", "", network)
-        return matchID
+        match_ID = re.sub("_.*", "", network)
+        return match_ID
 
-    def getOppTeam(self, matchID, teamName):
-        team1, team2 = self.matches[matchID].split("/")
+    def getOppTeam(self, match_ID, teamName):
+        team1, team2 = self.matches[match_ID].split("/")
         if team1 == teamName:
             return team2
         else:
             return team1
 
-    def getMatchday(self, matchID):
-        matchID = int(matchID)
-        if matchID <= 2014322:
+    def getMatchday(self, match_ID):
+        match_ID = int(match_ID)
+        if match_ID <= 2014322:
             return 0
-        elif matchID >= 2014323 and matchID <= 2014338:
+        elif match_ID >= 2014323 and match_ID <= 2014338:
             return 1
-        elif matchID >= 2014339 and matchID <= 2014354:
+        elif match_ID >= 2014339 and match_ID <= 2014354:
             return 2
-        elif matchID >= 2014355 and matchID <= 2014370:
+        elif match_ID >= 2014355 and match_ID <= 2014370:
             return 3
-        elif matchID >= 2014371 and matchID <= 2014386:
+        elif match_ID >= 2014371 and match_ID <= 2014386:
             return 4
-        elif matchID >= 2014387 and matchID <= 2014402:
+        elif match_ID >= 2014387 and match_ID <= 2014402:
             return 5
-        elif matchID >= 2014403 and matchID <= 2014418:
+        elif match_ID >= 2014403 and match_ID <= 2014418:
             return 6
-        elif matchID >= 2014419 and matchID <= 2014426:
+        elif match_ID >= 2014419 and match_ID <= 2014426:
             return 7
-        elif matchID >= 2014427 and matchID <= 2014430:
+        elif match_ID >= 2014427 and match_ID <= 2014430:
             return 8
 
-    def featureExtractor(self, teamName, p1, p2, matchID, matchNum, weight):
+    def featureExtractor(self, teamName, p1, p2, match_ID, matchNum, weight):
 
         avgPasses = self.countAvgPassesFeature.getCount(teamName, p1, p2)
 
         isSamePos = self.playerPosFeature.isSamePos(teamName, p1, p2)
         isDiffPos = abs(1 - isSamePos)
 
-        oppTeam = self.getOppTeam(matchID, teamName)
+        oppTeam = self.getOppTeam(match_ID, teamName)
         diffInRank = self.rankFeature.isHigherInRank(teamName, oppTeam)
 
         features = defaultdict(float)
@@ -195,7 +195,7 @@ class PredictPD:
 
         # for feature: won against a similar ranking team
         # 1. define history that we are able to use, i.e. previous games
-        matchday = self.getMatchday(matchID)
+        matchday = self.getMatchday(match_ID)
         history = self.teamPlayedWith[teamName][:matchday]
 
         if len(history) > 0:
@@ -218,10 +218,10 @@ class PredictPD:
         # features["wonAgainstSimTeam"] = self.teamWonAgainst[teamName][matchday]
 
         # mean degree feature
-        features["meanDegree"] = self.meanDegreeFeature.getMeanDegree(matchID, teamName)
+        features["meanDegree"] = self.meanDegreeFeature.getMeanDegree(match_ID, teamName)
 
-        features["betwPerGameP1"] = self.betweenFeature.getBetweenCentr(matchID, teamName, p1)
-        features["betwPerGameP2"] = self.betweenFeature.getBetweenCentr(matchID, teamName, p2)
+        features["betwPerGameP1"] = self.betweenFeature.getBetweenCentr(match_ID, teamName, p1)
+        features["betwPerGameP2"] = self.betweenFeature.getBetweenCentr(match_ID, teamName, p2)
 
         features["avgPassComplPerP1"] = self.passComplAttempFeature.getPC(teamName, p1)
         features["avgPassComplPerP2"] = self.passComplAttempFeature.getPC(teamName, p2)
@@ -249,13 +249,13 @@ class PredictPD:
                 if re.search("-edges", network):
                     edgeFile = open(path + network, "r")
                     teamName = processData.getTeamNameFromNetwork(network)
-                    matchID = self.getMatchIDFromFile(network)
+                    match_ID = self.getMatchIDFromFile(network)
 
-                    m = self.matches[matchID]
+                    m = self.matches[match_ID]
                     if m == "":
-                        self.matches[matchID] = teamName
+                        self.matches[match_ID] = teamName
                     else:
-                        self.matches[matchID] += "/" + teamName
+                        self.matches[match_ID] += "/" + teamName
 
         allScoresFilename = "../data/scores/2014-15_allScores.txt"
         allScores = open(allScoresFilename, "r")
@@ -283,13 +283,13 @@ class PredictPD:
                 if re.search("-team", network):
                     teamName = processData.getTeamNameFromNetwork(network)
                     teamName = re.sub("-team", "", teamName)
-                    matchID = self.getMatchIDFromFile(network)
+                    match_ID = self.getMatchIDFromFile(network)
 
                     stats_file = open(path + network, "r")
                     for line in stats_file:
                         stats = line.rstrip().split(", ")
 
-                    self.teamStatsByMatch[teamName][matchID] = stats
+                    self.teamStatsByMatch[teamName][match_ID] = stats
 
     # Training
     # 	have features calculate numbers based on data
@@ -330,27 +330,24 @@ class PredictPD:
                         # passesBetweenPos = defaultdict(lambda: defaultdict(int))
                         allGames.append((path, network))
 
-            # try shuffling games
-            # random.shuffle(allGames)
-
             for game in allGames:
                 path, network = game
                 edgeFile = open(path + network, "r")
 
                 teamName = processData.getTeamNameFromNetwork(network)
-                matchID = self.getMatchIDFromFile(network)
+                match_ID = self.getMatchIDFromFile(network)
                 # print "team: %s" % teamName
                 for players in edgeFile:
                     p1, p2, weight = players.rstrip().split("\t")
                     # print "p1: %s, p2: %s, weight: %f" % (p1, p2, float(weight))
 
-                    # teamFile = open(path + matchID + "_tpd-" + re.sub(" ", "_", teamName) + "-team", "r")
+                    # teamFile = open(path + match_ID + "_tpd-" + re.sub(" ", "_", teamName) + "-team", "r")
                     # for line in teamFile:
                     # 	stats = line.rstrip().split(", ")
                     # self.passComplPerTeam[teamName] += float(stats[0])
                     # self.passAttemPerTeam[teamName] += float(stats[1])
                     # self.passPercPerTeam[teamName] += float(stats[2])
-                    features = self.featureExtractor(teamName, p1, p2, matchID, matchNum, weight)
+                    features = self.featureExtractor(teamName, p1, p2, match_ID, matchNum, weight)
 
                     # for f in features:
                     # 	print "features[%s] = %f" % (f, float(features[f]))
