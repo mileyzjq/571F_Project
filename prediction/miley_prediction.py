@@ -5,7 +5,7 @@ from collections import defaultdict
 import util
 
 
-class PredictPD():
+class FeatureModel():
     def __init__(self):
         self.learning_rate = 0.0092
         self.momentum = 0.09
@@ -35,7 +35,7 @@ class PredictPD():
         self.page_rank_feature = classes.pageRankFeature()
         self.pass_attempt_feature = classes.PassesComplAttempPerPlayerFeature()
         # self.pass_position_feature = classes.CountPassesPerPosFeature(game_pos_dir, "q-finals")
-        self.team_pass_attempt_feature = classes.CountPassesComplAttempPerTeamFeature()
+        self.team_pass_completed_feature = classes.CountPassesComplAttempPerTeamFeature()
         self.init_team_postion(squad_dir)
 
     def init_team_postion(self, squad_dir):
@@ -56,10 +56,10 @@ class PredictPD():
 
     def extract_feature(self, team_name, p1, p2, match_ID, weight):
         features = defaultdict(float)
-        features["avg_pass"] = self.count_avg_pass_feature.getCount(team_name, p1, p2)
-        features["check_same_postion"] = self.player_position_feature.isSamePos(team_name, p1, p2)
+        features["avg_pass"] = self.count_avg_pass_feature.get_count(team_name, p1, p2)
+        features["check_same_postion"] = self.player_position_feature.check_same_pos(team_name, p1, p2)
         rival_team = self.get_rival_team(match_ID, team_name)
-        features["check_diff_rank"] = self.rank_feature.isHigherInRank(team_name, rival_team)
+        features["check_diff_rank"] = self.rank_feature.check_higher_rank(team_name, rival_team)
 
         position1 = self.team_position[team_name][p1]
         position2 = self.team_position[team_name][p2]
@@ -67,15 +67,16 @@ class PredictPD():
         self.pass_between_postion[team_name][p_key] += int(weight)
         self.total_pass[team_name] += int(weight)
         features["avg_pass_position"] = self.pass_between_postion[team_name][p_key] / float(self.total_pass[team_name])
-        features["mean_degree"] = self.mean_degree_feature.getMeanDegree(match_ID, team_name)
-        features["between_P1"] = self.betweeness_feature.getBetweenCentr(team_name, p1)
-        features["between_P2"] = self.betweeness_feature.getBetweenCentr(team_name, p2)
+        features["mean_degree"] = self.mean_degree_feature.get_mean_degree(match_ID, team_name)
+        features["between_P1"] = self.betweeness_feature.get_betweeness(team_name, p1)
+        features["between_P2"] = self.betweeness_feature.get_betweeness(team_name, p2)
         features["closeness_P1"] = self.closeness_feature.get_closeness(team_name, p1)
+        features["closeness_P2"] = self.closeness_feature.get_closeness(team_name, p2)
         features["page_rank_P1"] = self.page_rank_feature.get_page_rank(team_name, p1)
         features["page_rank_P2"] = self.page_rank_feature.get_page_rank(team_name, p2)
-        features["avg_pass_percentage_P1"] = self.pass_attempt_feature.getPCPerc(team_name, p1)
-        features["avg_pass_percentage_P2"] = self.pass_attempt_feature.getPCPerc(team_name, p2)
-        features["pass_compl_percent_team"] = self.team_pass_attempt_feature.getPCPerc(team_name, match_ID)
+        features["avg_pass_percentage_P1"] = self.pass_attempt_feature.get_perc_completed_player(team_name, p1)
+        features["avg_pass_percentage_P2"] = self.pass_attempt_feature.get_perc_completed_player(team_name, p2)
+        features["pass_compl_percent_team"] = self.team_pass_completed_feature.get_team_perc_completed(team_name)
         # features["pass_pos_feature_p1"] = self.pass_position_feature.getCountPerc(team_name, self.team_position[team_name][p1])
         # features["pass_pos_feature_p2"] = self.pass_position_feature.getCountPerc(team_name,self.team_position[team_name][p2])
         return features
@@ -116,5 +117,5 @@ class PredictPD():
         print("Save {} entry".format(len(output_list)))
 
 
-pred = PredictPD()
+pred = FeatureModel()
 pred.train()
