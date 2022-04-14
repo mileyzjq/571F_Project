@@ -1,0 +1,823 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"de",
+				"desired_key_name"
+			],
+			[
+				"in",
+				"insane_reward_gs_game1"
+			],
+			[
+				"lo",
+				"log_ll"
+			],
+			[
+				"ZS",
+				"ZS_MIXED_NE"
+			],
+			[
+				"PU",
+				"PURE_NE_1"
+			],
+			[
+				"ro",
+				"row_player_data"
+			],
+			[
+				"row",
+				"row_player_data"
+			],
+			[
+				"phi",
+				"phi_2_1"
+			],
+			[
+				"COl",
+				"COL_PLAYER"
+			],
+			[
+				"RO",
+				"ROW_PLAYER"
+			],
+			[
+				"p",
+				"println"
+			],
+			[
+				"G",
+				"Golfer"
+			],
+			[
+				"Go",
+				"GolfCouse"
+			],
+			[
+				"re",
+				"returnByPrintf"
+			],
+			[
+				"str",
+				"strcpy"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "Package Control Messages\n========================\n\nDebugger\n--------\n\n  For getting set up see https://github.com/daveleroy/sublime_debugger\n\n  For a full list of changes see https://github.com/daveleroy/sublime_debugger/commits\n\n\n  Version 0.6.7\n\n  - Fixes an issue with the latest version of vscode lldb\n\n\n  Version 0.6.6\n\n  - Allow inputing debugger commands directly into the debugger console\n  - Auto complete for debugger commands (not all adapters support this)\n  - A number of performance/usability improvements for the debugger console\n\n\n  Version 0.6.4\n\n  - Added support for vscode-js-debug for chrome/node/edge adapters\n  - Improved snippet support\n\n\n  Version 0.6.3\n\n  - Adjusted the calculation for determining a good value for ui_rem_width_scale\n  - Added setting ui_rem_width_scale_adjust_automatically for disabling automatic calculation of ui_rem_width_scale\n\n\n  Version 0.6.2\n\n  - Fixes a layout issue on Linux\n\n\n  Version 0.6.1\n\n  - Fixes an issue with the debugger panel not being correctly sized on Windows/Linux #121\n  - Fixes an issue with hover evaluation #152 (@ta946)\n\n\n  Version 0.6.0\n\n  - This update changes how the output is handled. Instead of showing up as a tab in the debugger UI the layout is changed to a split view and the output is created in a standard view. This isn't perfect but it at least allows copy/paste/scrolling etc. The output view now also supports some ansi escape codes. You can customize the layout/placement of the view in the settings.\n  - Adds dissasembly syntax for LLDB\n  - Elixer support (@timfjord)\n\n\n  Version 0.5.4\n\n  - Resolve the`$workspaceFolder` variable to first folder project instead of being an alias of `$project_path`  (@rchl)\n  - Fix layout positioning in latest ST dev builds (@rchl)\n  - lldb: Fixes an issue with the integrated terminal handling\n\n\n  Version 0.5.3\n\n  - Tool tips when hovering over debugger controls\n  - Moved Debugger menu item into tools -> Debugger\n  - Improved json schema support for auto completeing adapter configurations (requires LSP-json)\n  - Fixes node json schema contributions\n  - Fixes issue with installing the php adapter\n  - Fixes issues with localized pacakages and json schema/snippets\n  - Fixes issue with external terminal on mac\n\n\n  Version 0.5.2\n\n  - Disable winpty on Windows (needs to be rebuilt for python 3.8)\n\n\n  Version 0.5.1\n\n  - Fixes 64/32 bit windows importing the wrong winpyty versions\n\n\n  Version 0.5.0\n\n  - python: Allow module launch configurations (@anergictcell)\n  - lldb: fixes issue with toggle disassembly\n  - ruby: added adapter (requires readapt)\n\n  - The install adapter menu now checks installed adapters for updates (for most adapters)\n  - The install adapter menu now has a link to each adapters documentations\n\n  - Added 'Debugger: Clear Breakpoints' command that clears all breakpoints\n\n  - Support for exception breakpoint filter conditions (not all adapters support this)\n  - Support for debug session hierarchies which is going to be required for some complex adapter setups such as vscode-debug-js\n  - Support the \"clipboard\" context when copying a variables value\n\n  - When expanding a variable display a loading indicator when the variables children are fetched.\n  - Show error message inline when expanding a variable fails\n  - Allow expanding/collapsing a debug session\n  - Improved handling of stack frames that marked as labels\n  - Improved handling of stack frames that are marked as deemphasized or their source is deemphasized\n  - Fixes integrated terminal\n\n\n  Version 0.4.1\n\n  - Adds explicit font setting for debugger panel\n\n\n  Version 0.4.0\n\n  - debugger_configuration replaces debug.configurations and is now defined at the root of the .sublime-project instead of inside settings\n  - Adds support for tasks see https://github.com/daveleroy/sublime_debugger#tasks\n  - Adds support for pre_debug_task and post_debug_task which can be used to build etc\n  - Adds schema support for LSP-json for auto completeing adapter configurations (see https://github.com/sublimelsp/LSP-json)\n  - Improvements to lldb adapter adding toggle disassembly, display options, dereference options\n  - Clicking a terminal panel when already selected now shows an output panel with the entire contents\n  - Renamed a bunch of commands (so if you bound any commands check them)\n  - Node adapter now has snippets\n  - Fixes issues with latest release of lldb adapter\n  - Fixes default ui scale accross platforms\n\n\n  Version 0.3.1\n\n  - Fixes issue with sizing and alignment of panels on windows\n  - Fixes path of go adapter\n\n\n  Version 0.3.0\n\n  - Initial support for multiple debug sessions\n  - Use debugpy instead of ptvsd for python adapter\n  - Right align line numbers in variables/callstack panel\n  - Improved layout of panels\n\n\n  Version 0.2.3\n\n  - Updates path for lldb\n\n\n  Version 0.2.3\n\n  - Updates path for lldb\n\n\n  Version 0.2.2\n\n  - Show dialog with error message when launching fails (to match vscode)\n  - In multi-threaded programs the reason for why a specific thread was stopped is now only displayed on that thread even if all threads were stopped\n  - If running a build with `sublime_build` in the configuration don't start debugging if the build fails with an exit code\n  - Fixes issue with pause not working\n  - Fixes rendering performance regression\n  - Fixes gutter icons on windows\n\n\n  Version 0.2.1\n\n  - Debugging with a single thread now just displays the stack frames without the thread header\n  - When launching a configuration and the adapter is not installed offer to install it\n  - When auto selecting a stack frame prefer the first none subtle stack frame\n  - Fixes call stack layout when encountering long stack frame names\n  - Fixes various issues with multi threaded debugging\n  - Fixes hover providers\n\n\n  Version 0.2.0\n\n  - Support for column breakpoints (requires adapter support)\n  - Support for data breakpoints (requires adapter support, currently only lldb?)\n  - Left-click gutter now toggles breakpoints, right-clicking a breakpoint allows editing/advanced options\n  - Watch expressions\n  - Loaded Modules/Sources panels\n  - Adds Node debug adapter (@appelgriebsch)\n  - External terminal support. Terminal on Mac (Needs support for Windows/Linux) or Sublime's Terminus package.\n  - Integrated terminal now strips ascii control sequences \n  - Settings button\n  - Show currently installed version of an adapter, show download progress when installing an adapter\n  - Fixes issues that sometimes occurred installing/reinstalling adapters\n  - Fixes issues with reloading plugin\n\n\n  Version 0.1.8\n\n  - Fixes core not defined error\n\n\n  Version 0.1.7\n\n  - Allow setting logging options in settings\n  - Updated url for vscode-firefox-debugger (@appelgriebsch)\n  - Fixes issue preventing Debugger: Install Adapters from being run from the command palette\n  - Fixes issue where some debug adapters were failing to be fully unzipped on Windows because of long paths\n\n\n  Version 0.1.6\n\n  - Adds run to cursor command\n  - Fixes issue preventing installing debug adapters\n\n\n  Version 0.1.5\n\n  - Fixes issue that prevented debugging on windows\n\n\n  Version 0.1.4\n\n  - New styling of panels and updated layout to better support temporary panels created for build results/integrated terminal (and in the future allow customizing the layout of the panels)\n  - New console rendering code to support text wrapping and build results/integrated terminal\n  - Support internal terminal requests to allow program input. Requires configuration changes to use this feature which depends on the adapter in question. (LLVM uses \"terminal\": \"integrated\")\n  - Allow defining platform specific configuration settings with a top level object called \"linux\", \"osx\", or \"windows\" in your configuration. Same as vscode \n  - Fixes issue where hover providers/autocomplete/run command was not working for some debug adapters \n  - Fixes issue where using $file and other variables in a configuration had their values expanded when the debugger was opened not when the debugger was started\n  - Fixes some wonkiness that occurred when stepping the debugger that caused it to not update correctly\n\n\n  Version 0.1.3\n\n  - When attempting to open the debugger in a window without a sublime project prompt the user to create one.\n  - Fixes some other minor bugs and configuration issues\n\n\n  Version 0.1.0\n\n  - Adds package control support",
+			"settings":
+			{
+				"buffer_size": 8361,
+				"line_ending": "Unix",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			},
+			"undo_stack":
+			[
+				[
+					1,
+					1,
+					"insert",
+					{
+						"characters": "Package Control Messages\n========================\n\nDebugger\n--------\n\n  For getting set up see https://github.com/daveleroy/sublime_debugger\n\n  For a full list of changes see https://github.com/daveleroy/sublime_debugger/commits\n\n\n  Version 0.6.7\n\n  - Fixes an issue with the latest version of vscode lldb\n\n\n  Version 0.6.6\n\n  - Allow inputing debugger commands directly into the debugger console\n  - Auto complete for debugger commands (not all adapters support this)\n  - A number of performance/usability improvements for the debugger console\n\n\n  Version 0.6.4\n\n  - Added support for vscode-js-debug for chrome/node/edge adapters\n  - Improved snippet support\n\n\n  Version 0.6.3\n\n  - Adjusted the calculation for determining a good value for ui_rem_width_scale\n  - Added setting ui_rem_width_scale_adjust_automatically for disabling automatic calculation of ui_rem_width_scale\n\n\n  Version 0.6.2\n\n  - Fixes a layout issue on Linux\n\n\n  Version 0.6.1\n\n  - Fixes an issue with the debugger panel not being correctly sized on Windows/Linux #121\n  - Fixes an issue with hover evaluation #152 (@ta946)\n\n\n  Version 0.6.0\n\n  - This update changes how the output is handled. Instead of showing up as a tab in the debugger UI the layout is changed to a split view and the output is created in a standard view. This isn't perfect but it at least allows copy/paste/scrolling etc. The output view now also supports some ansi escape codes. You can customize the layout/placement of the view in the settings.\n  - Adds dissasembly syntax for LLDB\n  - Elixer support (@timfjord)\n\n\n  Version 0.5.4\n\n  - Resolve the`$workspaceFolder` variable to first folder project instead of being an alias of `$project_path`  (@rchl)\n  - Fix layout positioning in latest ST dev builds (@rchl)\n  - lldb: Fixes an issue with the integrated terminal handling\n\n\n  Version 0.5.3\n\n  - Tool tips when hovering over debugger controls\n  - Moved Debugger menu item into tools -> Debugger\n  - Improved json schema support for auto completeing adapter configurations (requires LSP-json)\n  - Fixes node json schema contributions\n  - Fixes issue with installing the php adapter\n  - Fixes issues with localized pacakages and json schema/snippets\n  - Fixes issue with external terminal on mac\n\n\n  Version 0.5.2\n\n  - Disable winpty on Windows (needs to be rebuilt for python 3.8)\n\n\n  Version 0.5.1\n\n  - Fixes 64/32 bit windows importing the wrong winpyty versions\n\n\n  Version 0.5.0\n\n  - python: Allow module launch configurations (@anergictcell)\n  - lldb: fixes issue with toggle disassembly\n  - ruby: added adapter (requires readapt)\n\n  - The install adapter menu now checks installed adapters for updates (for most adapters)\n  - The install adapter menu now has a link to each adapters documentations\n\n  - Added 'Debugger: Clear Breakpoints' command that clears all breakpoints\n\n  - Support for exception breakpoint filter conditions (not all adapters support this)\n  - Support for debug session hierarchies which is going to be required for some complex adapter setups such as vscode-debug-js\n  - Support the \"clipboard\" context when copying a variables value\n\n  - When expanding a variable display a loading indicator when the variables children are fetched.\n  - Show error message inline when expanding a variable fails\n  - Allow expanding/collapsing a debug session\n  - Improved handling of stack frames that marked as labels\n  - Improved handling of stack frames that are marked as deemphasized or their source is deemphasized\n  - Fixes integrated terminal\n\n\n  Version 0.4.1\n\n  - Adds explicit font setting for debugger panel\n\n\n  Version 0.4.0\n\n  - debugger_configuration replaces debug.configurations and is now defined at the root of the .sublime-project instead of inside settings\n  - Adds support for tasks see https://github.com/daveleroy/sublime_debugger#tasks\n  - Adds support for pre_debug_task and post_debug_task which can be used to build etc\n  - Adds schema support for LSP-json for auto completeing adapter configurations (see https://github.com/sublimelsp/LSP-json)\n  - Improvements to lldb adapter adding toggle disassembly, display options, dereference options\n  - Clicking a terminal panel when already selected now shows an output panel with the entire contents\n  - Renamed a bunch of commands (so if you bound any commands check them)\n  - Node adapter now has snippets\n  - Fixes issues with latest release of lldb adapter\n  - Fixes default ui scale accross platforms\n\n\n  Version 0.3.1\n\n  - Fixes issue with sizing and alignment of panels on windows\n  - Fixes path of go adapter\n\n\n  Version 0.3.0\n\n  - Initial support for multiple debug sessions\n  - Use debugpy instead of ptvsd for python adapter\n  - Right align line numbers in variables/callstack panel\n  - Improved layout of panels\n\n\n  Version 0.2.3\n\n  - Updates path for lldb\n\n\n  Version 0.2.3\n\n  - Updates path for lldb\n\n\n  Version 0.2.2\n\n  - Show dialog with error message when launching fails (to match vscode)\n  - In multi-threaded programs the reason for why a specific thread was stopped is now only displayed on that thread even if all threads were stopped\n  - If running a build with `sublime_build` in the configuration don't start debugging if the build fails with an exit code\n  - Fixes issue with pause not working\n  - Fixes rendering performance regression\n  - Fixes gutter icons on windows\n\n\n  Version 0.2.1\n\n  - Debugging with a single thread now just displays the stack frames without the thread header\n  - When launching a configuration and the adapter is not installed offer to install it\n  - When auto selecting a stack frame prefer the first none subtle stack frame\n  - Fixes call stack layout when encountering long stack frame names\n  - Fixes various issues with multi threaded debugging\n  - Fixes hover providers\n\n\n  Version 0.2.0\n\n  - Support for column breakpoints (requires adapter support)\n  - Support for data breakpoints (requires adapter support, currently only lldb?)\n  - Left-click gutter now toggles breakpoints, right-clicking a breakpoint allows editing/advanced options\n  - Watch expressions\n  - Loaded Modules/Sources panels\n  - Adds Node debug adapter (@appelgriebsch)\n  - External terminal support. Terminal on Mac (Needs support for Windows/Linux) or Sublime's Terminus package.\n  - Integrated terminal now strips ascii control sequences \n  - Settings button\n  - Show currently installed version of an adapter, show download progress when installing an adapter\n  - Fixes issues that sometimes occurred installing/reinstalling adapters\n  - Fixes issues with reloading plugin\n\n\n  Version 0.1.8\n\n  - Fixes core not defined error\n\n\n  Version 0.1.7\n\n  - Allow setting logging options in settings\n  - Updated url for vscode-firefox-debugger (@appelgriebsch)\n  - Fixes issue preventing Debugger: Install Adapters from being run from the command palette\n  - Fixes issue where some debug adapters were failing to be fully unzipped on Windows because of long paths\n\n\n  Version 0.1.6\n\n  - Adds run to cursor command\n  - Fixes issue preventing installing debug adapters\n\n\n  Version 0.1.5\n\n  - Fixes issue that prevented debugging on windows\n\n\n  Version 0.1.4\n\n  - New styling of panels and updated layout to better support temporary panels created for build results/integrated terminal (and in the future allow customizing the layout of the panels)\n  - New console rendering code to support text wrapping and build results/integrated terminal\n  - Support internal terminal requests to allow program input. Requires configuration changes to use this feature which depends on the adapter in question. (LLVM uses \"terminal\": \"integrated\")\n  - Allow defining platform specific configuration settings with a top level object called \"linux\", \"osx\", or \"windows\" in your configuration. Same as vscode \n  - Fixes issue where hover providers/autocomplete/run command was not working for some debug adapters \n  - Fixes issue where using $file and other variables in a configuration had their values expanded when the debugger was opened not when the debugger was started\n  - Fixes some wonkiness that occurred when stepping the debugger that caused it to not update correctly\n\n\n  Version 0.1.3\n\n  - When attempting to open the debugger in a window without a sublime project prompt the user to create one.\n  - Fixes some other minor bugs and configuration issues\n\n\n  Version 0.1.0\n\n  - Adds package control support"
+					},
+					"agEAAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAAAAAAAAAZAAAAAAAAAAAAAAAZAAAAAAAAADEAAAAAAAAAAAAAADEAAAAAAAAAMgAAAAAAAAAAAAAAMgAAAAAAAAAzAAAAAAAAAAAAAAAzAAAAAAAAADsAAAAAAAAAAAAAADsAAAAAAAAAPAAAAAAAAAAAAAAAPAAAAAAAAABEAAAAAAAAAAAAAABEAAAAAAAAAEUAAAAAAAAAAAAAAEUAAAAAAAAARgAAAAAAAAAAAAAARgAAAAAAAACMAAAAAAAAAAAAAACMAAAAAAAAAI0AAAAAAAAAAAAAAI0AAAAAAAAAjgAAAAAAAAAAAAAAjgAAAAAAAADkAAAAAAAAAAAAAADkAAAAAAAAAOUAAAAAAAAAAAAAAOUAAAAAAAAA5gAAAAAAAAAAAAAA5gAAAAAAAADnAAAAAAAAAAAAAADnAAAAAAAAAPYAAAAAAAAAAAAAAPYAAAAAAAAA9wAAAAAAAAAAAAAA9wAAAAAAAAD4AAAAAAAAAAAAAAD4AAAAAAAAADEBAAAAAAAAAAAAADEBAAAAAAAAMgEAAAAAAAAAAAAAMgEAAAAAAAAzAQAAAAAAAAAAAAAzAQAAAAAAADQBAAAAAAAAAAAAADQBAAAAAAAAQwEAAAAAAAAAAAAAQwEAAAAAAABEAQAAAAAAAAAAAABEAQAAAAAAAEUBAAAAAAAAAAAAAEUBAAAAAAAAjAEAAAAAAAAAAAAAjAEAAAAAAACNAQAAAAAAAAAAAACNAQAAAAAAANQBAAAAAAAAAAAAANQBAAAAAAAA1QEAAAAAAAAAAAAA1QEAAAAAAAAgAgAAAAAAAAAAAAAgAgAAAAAAACECAAAAAAAAAAAAACECAAAAAAAAIgIAAAAAAAAAAAAAIgIAAAAAAAAjAgAAAAAAAAAAAAAjAgAAAAAAADICAAAAAAAAAAAAADICAAAAAAAAMwIAAAAAAAAAAAAAMwIAAAAAAAA0AgAAAAAAAAAAAAA0AgAAAAAAAHcCAAAAAAAAAAAAAHcCAAAAAAAAeAIAAAAAAAAAAAAAeAIAAAAAAACUAgAAAAAAAAAAAACUAgAAAAAAAJUCAAAAAAAAAAAAAJUCAAAAAAAAlgIAAAAAAAAAAAAAlgIAAAAAAACXAgAAAAAAAAAAAACXAgAAAAAAAKYCAAAAAAAAAAAAAKYCAAAAAAAApwIAAAAAAAAAAAAApwIAAAAAAACoAgAAAAAAAAAAAACoAgAAAAAAAPgCAAAAAAAAAAAAAPgCAAAAAAAA+QIAAAAAAAAAAAAA+QIAAAAAAABsAwAAAAAAAAAAAABsAwAAAAAAAG0DAAAAAAAAAAAAAG0DAAAAAAAAbgMAAAAAAAAAAAAAbgMAAAAAAABvAwAAAAAAAAAAAABvAwAAAAAAAH4DAAAAAAAAAAAAAH4DAAAAAAAAfwMAAAAAAAAAAAAAfwMAAAAAAACAAwAAAAAAAAAAAACAAwAAAAAAAKEDAAAAAAAAAAAAAKEDAAAAAAAAogMAAAAAAAAAAAAAogMAAAAAAACjAwAAAAAAAAAAAACjAwAAAAAAAKQDAAAAAAAAAAAAAKQDAAAAAAAAswMAAAAAAAAAAAAAswMAAAAAAAC0AwAAAAAAAAAAAAC0AwAAAAAAALUDAAAAAAAAAAAAALUDAAAAAAAADwQAAAAAAAAAAAAADwQAAAAAAAAQBAAAAAAAAAAAAAAQBAAAAAAAAEYEAAAAAAAAAAAAAEYEAAAAAAAARwQAAAAAAAAAAAAARwQAAAAAAABIBAAAAAAAAAAAAABIBAAAAAAAAEkEAAAAAAAAAAAAAEkEAAAAAAAAWAQAAAAAAAAAAAAAWAQAAAAAAABZBAAAAAAAAAAAAABZBAAAAAAAAFoEAAAAAAAAAAAAAFoEAAAAAAAA1AUAAAAAAAAAAAAA1AUAAAAAAADVBQAAAAAAAAAAAADVBQAAAAAAAPkFAAAAAAAAAAAAAPkFAAAAAAAA+gUAAAAAAAAAAAAA+gUAAAAAAAAYBgAAAAAAAAAAAAAYBgAAAAAAABkGAAAAAAAAAAAAABkGAAAAAAAAGgYAAAAAAAAAAAAAGgYAAAAAAAAbBgAAAAAAAAAAAAAbBgAAAAAAACoGAAAAAAAAAAAAACoGAAAAAAAAKwYAAAAAAAAAAAAAKwYAAAAAAAAsBgAAAAAAAAAAAAAsBgAAAAAAAKQGAAAAAAAAAAAAAKQGAAAAAAAApQYAAAAAAAAAAAAApQYAAAAAAADfBgAAAAAAAAAAAADfBgAAAAAAAOAGAAAAAAAAAAAAAOAGAAAAAAAAHgcAAAAAAAAAAAAAHgcAAAAAAAAfBwAAAAAAAAAAAAAfBwAAAAAAACAHAAAAAAAAAAAAACAHAAAAAAAAIQcAAAAAAAAAAAAAIQcAAAAAAAAwBwAAAAAAAAAAAAAwBwAAAAAAADEHAAAAAAAAAAAAADEHAAAAAAAAMgcAAAAAAAAAAAAAMgcAAAAAAABkBwAAAAAAAAAAAABkBwAAAAAAAGUHAAAAAAAAAAAAAGUHAAAAAAAAmAcAAAAAAAAAAAAAmAcAAAAAAACZBwAAAAAAAAAAAACZBwAAAAAAAPkHAAAAAAAAAAAAAPkHAAAAAAAA+gcAAAAAAAAAAAAA+gcAAAAAAAAiCAAAAAAAAAAAAAAiCAAAAAAAACMIAAAAAAAAAAAAACMIAAAAAAAAUggAAAAAAAAAAAAAUggAAAAAAABTCAAAAAAAAAAAAABTCAAAAAAAAJUIAAAAAAAAAAAAAJUIAAAAAAAAlggAAAAAAAAAAAAAlggAAAAAAADDCAAAAAAAAAAAAADDCAAAAAAAAMQIAAAAAAAAAAAAAMQIAAAAAAAAxQgAAAAAAAAAAAAAxQgAAAAAAADGCAAAAAAAAAAAAADGCAAAAAAAANUIAAAAAAAAAAAAANUIAAAAAAAA1ggAAAAAAAAAAAAA1ggAAAAAAADXCAAAAAAAAAAAAADXCAAAAAAAABkJAAAAAAAAAAAAABkJAAAAAAAAGgkAAAAAAAAAAAAAGgkAAAAAAAAbCQAAAAAAAAAAAAAbCQAAAAAAABwJAAAAAAAAAAAAABwJAAAAAAAAKwkAAAAAAAAAAAAAKwkAAAAAAAAsCQAAAAAAAAAAAAAsCQAAAAAAAC0JAAAAAAAAAAAAAC0JAAAAAAAAbQkAAAAAAAAAAAAAbQkAAAAAAABuCQAAAAAAAAAAAABuCQAAAAAAAG8JAAAAAAAAAAAAAG8JAAAAAAAAcAkAAAAAAAAAAAAAcAkAAAAAAAB/CQAAAAAAAAAAAAB/CQAAAAAAAIAJAAAAAAAAAAAAAIAJAAAAAAAAgQkAAAAAAAAAAAAAgQkAAAAAAAC/CQAAAAAAAAAAAAC/CQAAAAAAAMAJAAAAAAAAAAAAAMAJAAAAAAAA7QkAAAAAAAAAAAAA7QkAAAAAAADuCQAAAAAAAAAAAADuCQAAAAAAABgKAAAAAAAAAAAAABgKAAAAAAAAGQoAAAAAAAAAAAAAGQoAAAAAAAAaCgAAAAAAAAAAAAAaCgAAAAAAAHQKAAAAAAAA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"
+				]
+			]
+		},
+		{
+			"file": "classes.py",
+			"settings":
+			{
+				"buffer_size": 10087,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tao_prediction.py",
+			"settings":
+			{
+				"buffer_size": 3092,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					28,
+					1,
+					"revert",
+					null,
+					"AwAAAAAAAAAAAAAAAAAAAAAAAADXBgAAaW1wb3J0IHN5cwojIGFwcGVuZCB0aGUgcGF0aApzeXMucGF0aC5hcHBlbmQoIjU3MUZfUHJvamVjdCIpCgppbXBvcnQgYXJncGFyc2UKaW1wb3J0IHRpbWUKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCB0b3JjaAppbXBvcnQgdG9yY2gubm4gYXMgbm4KaW1wb3J0IHRvcmNoLm9wdGltIGFzIG9wdGltCmZyb20gcHJlZGljdGlvbi50cmFpbmVyIGltcG9ydCBOZXVyYWxEYXRhLCBOZXVyYWxNb2RlbCwgdHJhaW5fbmV1cmFsX21vZGVsLCBsb2FkX2RhdGFzZXQKCnBhcnNlciA9IGFyZ3BhcnNlLkFyZ3VtZW50UGFyc2VyKGRlc2NyaXB0aW9uPSdTb2NjZXInKQpwYXJzZXIuYWRkX2FyZ3VtZW50KCctLWlucHV0X3BhdGgnLAogICAgICAgICAgICAgICAgICAgIGRlZmF1bHQ9Jy4uL2RhdGEvcHJvY2Vzc2VkL3BsYXllcl9kYXRhMi5jc3YnLAogICAgICAgICAgICAgICAgICAgIHR5cGU9c3RyLCBoZWxwPSdUaGUgaW5wdXQgZGF0YScpCnBhcnNlci5hZGRfYXJndW1lbnQoJy0tb3V0X3BhdGgnLAogICAgICAgICAgICAgICAgICAgIGRlZmF1bHQ9Jy4uL3RyYWluZWQnLAogICAgICAgICAgICAgICAgICAgIHR5cGU9c3RyLCBoZWxwPSdQYXRoIHRvIHNhdmUgdGhlIGRhdGEnKQpwYXJzZXIuYWRkX2FyZ3VtZW50KCctLXdlaWdodF9wYXRoJywKICAgICAgICAgICAgICAgICAgICBkZWZhdWx0PScuLi90cmFpbmVkL3NvY2Nlcl8xNjQ3ODgzODg0LjE4Nzk1NS5wdGgnLAogICAgICAgICAgICAgICAgICAgIHR5cGU9c3RyLCBoZWxwPSdQYXRoIHRvIHNhdmUgdGhlIGRhdGEnKQpwYXJzZXIuYWRkX2FyZ3VtZW50KCctLW1vZGUnLCBkZWZhdWx0PSd0cmFpbicsIHR5cGU9c3RyLCBoZWxwPSdTZWxlY3Qgd2hldGhlciB0byB0cmFpbiwgZXZhbHVhdGUsIGluZmVyZW5jZSB0aGUgbW9kZWwnKQpwYXJzZXIuYWRkX2FyZ3VtZW50KCctLXZhbGlkX3NpemUnLCBkZWZhdWx0PTAuMiwgdHlwZT1mbG9hdCwgaGVscD0nUHJvcG9ydGlvbiBvZiBkYXRhIHVzZWQgYXMgdmFsaWRhdGlvbiBzZXQnKQpwYXJzZXIuYWRkX2FyZ3VtZW50KCctLWxlYXJuaW5nX3JhdGUnLCBkZWZhdWx0PS4wMDMsIHR5cGU9ZmxvYXQsIGhlbHA9J0RlZmF1bHQgbGVhcm5pbmcgcmF0ZScpCnBhcnNlci5hZGRfYXJndW1lbnQoJy0tZXBvY2gnLCBkZWZhdWx0PTEwLCB0eXBlPWludCwgaGVscD0nZXBvY2ggbnVtYmVyJykKcGFyc2VyLmFkZF9hcmd1bWVudCgnLS1uYW1lJywgZGVmYXVsdD0ic29jY2VyIiwgdHlwZT1zdHIsIGhlbHA9J05hbWUgb2YgdGhlIG1vZGVsJykKYXJncyA9IHBhcnNlci5wYXJzZV9hcmdzKCkKCmlmIHRvcmNoLmN1ZGEuaXNfYXZhaWxhYmxlKCk6CiAgICBkZXZpY2UgPSB0b3JjaC5kZXZpY2UoImN1ZGE6MCIpCiAgICBwcmludCgiR1BVIGVuYWJsZSIpCmVsc2U6CiAgICBkZXZpY2UgPSB0b3JjaC5kZXZpY2UoImNwdSIpCiAgICBwcmludCgiQ1BVIGVuYWJsZSIpCgppZiBhcmdzLm1vZGUuX19lcV9fKCJ0cmFpbiIpOgogICAgVHJhaW4KCmVsaWYgYXJncy5tb2RlLl9fZXFfXygiZXZhbCIpOgogICAgcHJpbnQoInRvIGV2YWwiKQoKZWxpZiBhcmdzLm1vZGUuX19lcV9fKCJpbmZlciIpOgogICAgIyBMb2FkIHRoZSBtb2RlbAogICAgc2F2ZWRfbW9kZV9wYXRoID0gYXJncy53ZWlnaHRfcGF0aAoKICAgIG1vZGVsID0gTmV1cmFsTW9kZWwoNiwgMTI4LCAxKQoKICAgIG1vZGVsLmxvYWRfc3RhdGVfZGljdCh0b3JjaC5sb2FkKHNhdmVkX21vZGVfcGF0aCkpCgogICAgcHJpbnQobW9kZWwuZXZhbCgpKQoAAAAAAAAAAMUKAAAAAAAAAAAAAAAAAAAAAAAAFAwAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADPBQAAAAAAAM8FAAAAAAAAAAAAAAAA8L8"
+				]
+			]
+		},
+		{
+			"file": "miley_trainer.py",
+			"settings":
+			{
+				"buffer_size": 1269,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/JavaC-Java.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/JavaC-Java.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Java/Ant.sublime-build",
+					""
+				],
+				[
+					"Packages/Java/JavaC.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Java/JavaC.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Java/Ant.sublime-build",
+					""
+				],
+				[
+					"Packages/Java/JavaC.sublime-build",
+					""
+				],
+				[
+					"Packages/User/JavaC-Java.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/JavaC-Java.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MarkdownPreview/Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/User/JavaC-Java.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/MarkdownPreview/Markdown.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Perl/Perl.sublime-build",
+					""
+				],
+				[
+					"Packages/Perl/Perl.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Perl/Perl.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				":install",
+				"Package Control: Install Package"
+			],
+			[
+				":colo",
+				"UI: Select Color Scheme"
+			],
+			[
+				":Instal",
+				"Package Control: Install Package"
+			],
+			[
+				":Inst",
+				"Package Control: Install Package"
+			],
+			[
+				":Install",
+				"Package Control: Install Package"
+			],
+			[
+				":q",
+				"Set Syntax: SQL"
+			],
+			[
+				":Insta",
+				"Package Control: Install Package"
+			],
+			[
+				":previ",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"set syntax: ",
+				"Set Syntax: Markdown"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				":insta",
+				"Package Control: Install Package"
+			],
+			[
+				":close",
+				"File: Close All"
+			],
+			[
+				":sql",
+				"Set Syntax: SQL"
+			],
+			[
+				":cl",
+				"File: Close All"
+			],
+			[
+				":clos",
+				"File: Close All"
+			],
+			[
+				":pre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				":build ",
+				"Build: New Build System"
+			],
+			[
+				":close ",
+				"File: Close All"
+			],
+			[
+				"File:",
+				"File: Save All"
+			],
+			[
+				":",
+				":$ - EOF"
+			],
+			[
+				":W",
+				":w - Save"
+			],
+			[
+				":previe",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				":preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"set syntax: mar",
+				"Set Syntax: Markdown"
+			],
+			[
+				"set syntax: la",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"Package Control: Ints",
+				"Package Control: Install Package"
+			],
+			[
+				"Install",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 378.0,
+		"history":
+		[
+			"sublime.log_commands(True)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/prediction"
+	],
+	"file_history":
+	[
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/EECE571F/project/571F_Project/requirements.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/CPSC530L/Assign/Assign3/a3/qre.py",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/CPSC530L/Assign/Assign3/a3/games.py",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/CPSC530L/Assign/Assign3/a3/levelk.py",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter-Term2/CPSC530L/Assign/Assign3/a3/qre_tao.py",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/conda_python3.sublime-build",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/PythonMain.sublime-build",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/SideBarEnhancements/Default (OSX).sublime-keymap",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/Terminal/Default (OSX).sublime-keymap",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/Side Bar.sublime-settings",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/project/tease/PracticalLattice/503_final_project.ipynb",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/reading.assigment/my/note.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/assignment/assignment4/transformer_TS/config.json",
+		"/Users/michaelma/Desktop/Workspace/upgrade/algorithm/leetcode/test_java/threeSum.java",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/assignment/assignment1/dementia_classifier/README.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/EECE571B/note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/EECE571B/note.txt",
+		"/Users/michaelma/Desktop/Workspace/upgrade/algorithm/leetcode/leetcode.md",
+		"/Users/michaelma/Desktop/Workspace/upgrade/algorithm/leetcode/test_java/validSudoku.java",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC404/lectures/20210923/ans.sql",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/EECE571C/presentation/Presentation.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/daily_task.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/assignment1/assign1.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/EECE571C/presentation/note.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/COOP/coop_intake.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/lecture.md",
+		"/Users/michaelma/github/blog/michaeltaoma.github.io/_posts/2021-09-14-Buffer-Overflow.md",
+		"/Users/michaelma/github/blog/michaeltaoma.github.io/_posts/2021-06-15-Offline-Reinforcement-Learning-Review.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPEN542/buffer_overflow.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPEN542/note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC404/lectures/preclass.sql",
+		"/Users/michaelma/github/blog/michaeltaoma.github.io/daily_task.txt",
+		"/Users/michaelma/github/blog/michaeltaoma.github.io/index.html",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/c_lang/c_note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/c_lang/test.c",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/c_lang/test.java",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/c_note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/test.java",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/test.c",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/test.cpp",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/javac-java.sublime-build",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/EECE571C/note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/code/test.pl",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC503/reading.md",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/MarkdownTOC/MarkdownTOC.sublime-settings",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/note.md",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/main.cpp",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/test.py",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/aes.txt",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/reviews/review.tex",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/Terminal/Terminal.sublime-settings",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/Terminal.sublime-settings",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/Terminal (OSX).sublime-settings",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/User/Default Dark.sublime-theme",
+		"/Users/michaelma/Library/Application Support/Sublime Text/Packages/Theme - Default/Default Dark.sublime-theme",
+		"/Users/michaelma/Desktop/Workspace/School/UBC/courses/2021-22-Winter/CPSC538M/reviews/review.log"
+	],
+	"find":
+	{
+		"height": 30.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"return"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8361,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8361,
+								8361
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"default_dir": "/Users/michaelma/test/java/testfile",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"tab_width": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "classes.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10087,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1592,
+								1592
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tao_prediction.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3092,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "miley_trainer.py",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1269,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								123,
+								123
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 205.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 28.0
+	},
+	"output.markdown":
+	{
+		"height": 32.0
+	},
+	"pinned_build_system": "Packages/User/JavaC-Java.sublime-build",
+	"project": "571f.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 261.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 5
+	}
+}

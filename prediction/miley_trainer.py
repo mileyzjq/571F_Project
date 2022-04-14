@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch.utils.data import Dataset
 import prediction.util as util
 
+
 class LinearRegressionData(Dataset):
     def __init__(self, csv_path, key_name):
         data = util.fromCSV(csv_path)
@@ -31,6 +32,7 @@ class LinearRegression(nn.Module):
 
     def forward(self, x):
         return self.linear(x)
+
 
 class LogisticRegressionModel(nn.Module):
     def __init__(self, input_dim, output_dim):
