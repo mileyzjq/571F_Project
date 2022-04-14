@@ -7,7 +7,7 @@ class NeuralData(Dataset):
     def __init__(self, csv_path, key_name):
         data = util.fromCSV(csv_path)
         data_x = [[row[key] for row in data] for key in key_name]
-        data_y = [row["weight"] for row in data]
+        data_y = [row["target"] for row in data]
         self.x = np.array(data_x, dtype="float64")
         self.x = self.x.reshape(self.x.shape[0], len(data_x[0]))
         self.x = self.x.transpose()

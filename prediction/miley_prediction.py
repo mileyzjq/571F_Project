@@ -34,7 +34,7 @@ class PredictPD():
         self.closeness_feature = classes.closenessFeature()
         self.page_rank_feature = classes.pageRankFeature()
         self.pass_attempt_feature = classes.PassesComplAttempPerPlayerFeature()
-        #self.pass_position_feature = classes.CountPassesPerPosFeature(game_pos_dir, "q-finals")
+        # self.pass_position_feature = classes.CountPassesPerPosFeature(game_pos_dir, "q-finals")
         self.team_pass_attempt_feature = classes.CountPassesComplAttempPerTeamFeature()
         self.init_team_postion(squad_dir)
 
@@ -76,8 +76,8 @@ class PredictPD():
         features["avg_pass_percentage_P1"] = self.pass_attempt_feature.getPCPerc(team_name, p1)
         features["avg_pass_percentage_P2"] = self.pass_attempt_feature.getPCPerc(team_name, p2)
         features["pass_compl_percent_team"] = self.team_pass_attempt_feature.getPCPerc(team_name, match_ID)
-        #features["pass_pos_feature_p1"] = self.pass_position_feature.getCountPerc(team_name, self.team_position[team_name][p1])
-        #features["pass_pos_feature_p2"] = self.pass_position_feature.getCountPerc(team_name,self.team_position[team_name][p2])
+        # features["pass_pos_feature_p1"] = self.pass_position_feature.getCountPerc(team_name, self.team_position[team_name][p1])
+        # features["pass_pos_feature_p2"] = self.pass_position_feature.getCountPerc(team_name,self.team_position[team_name][p2])
         return features
 
     # store match data for all games, including team and opponent team
@@ -98,7 +98,7 @@ class PredictPD():
         forder_list = classes.get_network_file_list(False, "-edges")
         output_list = []
         match_count = 0
-        
+
         for (path, network) in forder_list:
             edge_file = open(path + network, "r")
             team_name = classes.get_team_name(network)
@@ -114,6 +114,7 @@ class PredictPD():
             match_count += 1
         util.toCSV(output_list, self.save_file_dir)
         print("Save {} entry".format(len(output_list)))
+
 
 pred = PredictPD()
 pred.train()

@@ -94,8 +94,9 @@ def train_neural_model(device, model, criterion, optimizer, dataloaders, num_epo
                 val_epoch_loss += val_loss.item()
         loss_stats['train'].append(train_epoch_loss / len(train_loader))
         loss_stats['val'].append(val_epoch_loss / len(val_loader))
-        print(
-            f'Epoch {e + 0:02}: | Train Loss: {train_epoch_loss / len(train_loader):.5f} | Val Loss: {val_epoch_loss / len(val_loader):.5f}')
+        if e % 30 == 0:
+            print(
+                f'Epoch {e + 0:02}: | Train Loss: {train_epoch_loss / len(train_loader):.5f} | Val Loss: {val_epoch_loss / len(val_loader):.5f}')
 
     return model, loss_stats
 
