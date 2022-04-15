@@ -18,7 +18,7 @@ $ python train.py
 and supply with necessary arguments
 
 ```
-usage: tao_prediction.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
+usage:  train.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
                          [--weight_path WEIGHT_PATH] [--mode MODE]
                          [--valid_size VALID_SIZE]
                          [--learning_rate LEARNING_RATE] [--epoch EPOCH]
