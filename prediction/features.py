@@ -12,7 +12,7 @@ def get_team_name(network):
     team_name = re.sub("-edges", "", team_name)
     return re.sub("_", " ", team_name)
 
-def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
+def get_network_file_list(is_append, keyword, avoid_word="*&*+-#"):
     folder = "../data/passing_distributions/2014-15/"
     all_games = ["matchday" + str(i) for i in range(1, 7)]
     list = []
