@@ -1,55 +1,8 @@
 import numpy as np
 import torch
-import torch.nn as nn
 import tqdm.notebook as tqdm
 from torch.utils.data import Dataset
 from torch.utils.data.sampler import SubsetRandomSampler
-import prediction.util as util
-
-
-class NeuralData(Dataset):
-    def __init__(self, csv_path, key_name):
-        data = util.fromCSV(csv_path)
-        data_x = [[row[key] for row in data] for key in key_name]
-        data_y = [row["target"] for row in data]
-        self.x = np.array(data_x, dtype="float64")
-        self.x = self.x.reshape(self.x.shape[0], len(data_x[0]))
-        self.x = self.x.transpose()
-        self.y = np.array(data_y, dtype="float64")
-        self.y = self.y.transpose()
-
-    def __len__(self):
-        return len(self.x)
-
-    def __getitem__(self, idx):
-        res_x = self.x[idx]
-        out = self.y[idx]
-        return res_x, out
-
-
-class NeuralModel(nn.Module):
-    def __init__(self, n_feature, n_hidden, n_output):
-        super(NeuralModel, self).__init__()
-
-        # Number of input features is 12.
-        self.layer_1 = nn.Linear(n_feature, n_hidden)
-        self.layer_2 = nn.Linear(n_hidden, n_hidden)
-        self.layer_out = nn.Linear(n_hidden, n_output)
-
-        self.relu = nn.ReLU()
-        self.dropout = nn.Dropout(p=0.1)
-        self.batchnorm1 = nn.BatchNorm1d(n_hidden)
-        self.batchnorm2 = nn.BatchNorm1d(n_hidden)
-
-    def forward(self, x):
-        x = self.relu(self.layer_1(x))
-        # x = self.batchnorm1(x)
-        x = self.relu(self.layer_2(x))
-        # x = self.batchnorm2(x)
-        # x = self.dropout(x)
-        x = self.layer_out(x)
-
-        return x
 
 
 def binary_acc(y_pred, y_test):

@@ -1,8 +1,4 @@
 import sys
-
-# append the path
-sys.path.append("571F_Project")
-
 import argparse
 import time
 from pathlib import Path
@@ -11,9 +7,8 @@ import torch.nn as nn
 import torch.optim as optim
 from prediction.trainer import train_neural_model, load_dataset
 from prediction import util
-from model.model import NeuralModel, LinearRegression, LogisticRegressionModel
+from model.model import NeuralModel
 from data.data import NeuralData
-import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Soccer')
 parser.add_argument('--input_path',

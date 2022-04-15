@@ -11,7 +11,7 @@ Current directories
 To run
 ```bash
 $ cd prediction
-$ python tao_prediction.py
+$ python train.py
 ```
 
 and supply with necessary arguments

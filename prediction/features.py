@@ -7,10 +7,12 @@ import snap
 def get_match_id(network):
     return re.sub("_.*", "", network)
 
+
 def get_team_name(network):
     team_name = re.sub("[^-]*-", "", network, count=1)
     team_name = re.sub("-edges", "", team_name)
     return re.sub("_", " ", team_name)
+
 
 def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
     folder = "../data/passing_distributions/2014-15/"
@@ -28,6 +30,7 @@ def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
                 list.append((path, network))
     return list
 
+
 def generate_graph(path, network):
     edge_file = open(path + network, "r")
     team_name = get_team_name(network)
@@ -44,6 +47,7 @@ def generate_graph(path, network):
         src, dest, weight = edge.split("\t")
         graph.AddEdge(int(src), int(dest))
     return graph
+
 
 # average passes completed percentage feature
 class PassCompletedPlayerFeature():
@@ -174,6 +178,7 @@ class PassCompletedTeamFeature():
 
     def get_team_perc_completed(self, team_name):
         return self.pass_compl_percent_team[team_name] / 6.0
+
 
 # calculate the average betweenness centrality of each player
 # the return value is normalised of six mathces
