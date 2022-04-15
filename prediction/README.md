@@ -1,5 +1,5 @@
 # A network-assisted approach to predicting passing distributions #
-## Final project for CS224W at Stanford University ##
+## Final project for EECE571F at UBC ##
 ###Autumn 2015###
 
 This is the directory where the linear regression occurs.

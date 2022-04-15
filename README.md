@@ -7,6 +7,7 @@ for games in the round of 16 stage
 Current directories
 - <code>data/processed/player_data.csv</code> contains retrieved data
 - <code>data/processed/trained</code> contains trained model
+- <code>data/model/model</code> contains model
 
 To run
 ```bash
@@ -17,7 +18,7 @@ $ python train.py
 and supply with necessary arguments
 
 ```
-usage: tao_prediction.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
+usage:  train.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
                          [--weight_path WEIGHT_PATH] [--mode MODE]
                          [--valid_size VALID_SIZE]
                          [--learning_rate LEARNING_RATE] [--epoch EPOCH]
