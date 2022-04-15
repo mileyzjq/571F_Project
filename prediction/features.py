@@ -45,6 +45,63 @@ def generate_graph(path, network):
         graph.AddEdge(int(src), int(dest))
     return graph
 
+# get the average betweenness centrality of each player
+class BetweennessCentralFeature():
+    def __init__(self):
+        forder_list = get_network_file_list(False, "-edges")
+        self.betweeness_centrality = defaultdict(lambda: defaultdict(float))
+
+        for (path, network) in forder_list:
+            graph = generate_graph(path, network)
+            team_name = get_team_name(network)
+            Nodes, Edges = graph.GetBetweennessCentr(1.0)
+            players = [(node, Nodes[node]) for node in Nodes]
+            for player in players:
+                num, betweeness = player
+                self.betweeness_centrality[team_name][num] += betweeness
+
+    def get_betweeness(self, team_name, player):
+        return self.betweeness_centrality[team_name][int(player)] / 6.0
+
+
+# get GNN closeness centrality feature
+class ClosenessFeature():
+    def __init__(self):
+        forder_list = get_network_file_list(False, "-edges")
+        self.closeness_centrality = defaultdict(lambda: defaultdict(float))
+
+        for (path, network) in forder_list:
+            graph = generate_graph(path, network)
+            team_name = get_team_name(network)
+            # get closeness centrality for each player
+            for NI in graph.Nodes():
+                CloseCentr = graph.GetClosenessCentr(NI.GetId())
+                # print("node: %d centrality: %f" % (NI.GetId(), CloseCentr))
+                self.closeness_centrality[team_name][NI.GetId()] += CloseCentr
+
+    def get_closeness(self, team_name, player):
+        return self.closeness_centrality[team_name][int(player)] / 6.0
+
+
+# get GNN page rank centrality feature
+class PageRankFeature():
+    def __init__(self):
+        forder_list = get_network_file_list(False, "-edges")
+        self.page_rank = defaultdict(lambda: defaultdict(float))
+
+        for (path, network) in forder_list:
+            graph = generate_graph(path, network)
+            team_name = get_team_name(network)
+            # get page rank centrality for each player
+            PRankH = graph.GetPageRank()
+            for item in PRankH:
+                print(item, PRankH[item])
+                self.page_rank[team_name][item] += PRankH[item]
+
+    def get_page_rank(self, team_name, player):
+        return self.page_rank[team_name][int(player)] / 6.0
+
+
 # average passes completed percentage feature
 class PassCompletedPlayerFeature():
     def __init__(self):
@@ -174,60 +231,3 @@ class PassCompletedTeamFeature():
 
     def get_team_perc_completed(self, team_name):
         return self.pass_compl_percent_team[team_name] / 6.0
-
-# calculate the average betweenness centrality of each player
-# the return value is normalised of six mathces
-class BetweennessCentralFeature():
-    def __init__(self):
-        forder_list = get_network_file_list(False, "-edges")
-        self.betweeness_centrality = defaultdict(lambda: defaultdict(float))
-
-        for (path, network) in forder_list:
-            graph = generate_graph(path, network)
-            team_name = get_team_name(network)
-            Nodes, Edges = graph.GetBetweennessCentr(1.0)
-            players = [(node, Nodes[node]) for node in Nodes]
-            for player in players:
-                num, betweeness = player
-                self.betweeness_centrality[team_name][num] += betweeness
-
-    def get_betweeness(self, team_name, player):
-        return self.betweeness_centrality[team_name][int(player)] / 6.0
-
-
-# get GNN closeness centrality feature
-class ClosenessFeature():
-    def __init__(self):
-        forder_list = get_network_file_list(False, "-edges")
-        self.closeness_centrality = defaultdict(lambda: defaultdict(float))
-
-        for (path, network) in forder_list:
-            graph = generate_graph(path, network)
-            team_name = get_team_name(network)
-            # get closeness centrality for each player
-            for NI in graph.Nodes():
-                CloseCentr = graph.GetClosenessCentr(NI.GetId())
-                # print("node: %d centrality: %f" % (NI.GetId(), CloseCentr))
-                self.closeness_centrality[team_name][NI.GetId()] += CloseCentr
-
-    def get_closeness(self, team_name, player):
-        return self.closeness_centrality[team_name][int(player)] / 6.0
-
-
-# get GNN page rank centrality feature
-class PageRankFeature():
-    def __init__(self):
-        forder_list = get_network_file_list(False, "-edges")
-        self.page_rank = defaultdict(lambda: defaultdict(float))
-
-        for (path, network) in forder_list:
-            graph = generate_graph(path, network)
-            team_name = get_team_name(network)
-            # get page rank centrality for each player
-            PRankH = graph.GetPageRank()
-            for item in PRankH:
-                print(item, PRankH[item])
-                self.page_rank[team_name][item] += PRankH[item]
-
-    def get_page_rank(self, team_name, player):
-        return self.page_rank[team_name][int(player)] / 6.0
