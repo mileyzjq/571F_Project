@@ -1,6 +1,3 @@
-# Jade Huang
-# jayebird@stanford.edu
-#
 # This script was used to grab all player numbers and player names from
 # teams who played in the 2015-16 Champions League.
 #
