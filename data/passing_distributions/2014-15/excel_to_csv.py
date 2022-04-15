@@ -1,6 +1,3 @@
-# Jade Huang
-# source: stackoverflow.com
-
 import argparse
 import xlrd
 import csv
