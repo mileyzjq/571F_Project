@@ -7,6 +7,7 @@ for games in the round of 16 stage
 Current directories
 - <code>data/processed/player_data.csv</code> contains retrieved data
 - <code>data/processed/trained</code> contains trained model
+- <code>data/model/model</code> contains model
 
 To run
 ```bash
