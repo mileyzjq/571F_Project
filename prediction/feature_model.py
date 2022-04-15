@@ -1,4 +1,4 @@
-import miley_classes as classes
+import features as Feature
 import os
 import re
 from collections import defaultdict
@@ -26,16 +26,15 @@ class FeatureModel():
         self.team_stats = defaultdict(lambda: defaultdict(list))
 
         # Initialize features
-        self.count_avg_pass_feature = classes.CountAvgPassesFeature()
-        self.player_position_feature = classes.PlayerPositionFeature()
-        self.rank_feature = classes.RankingFeature()
-        self.mean_degree_feature = classes.MeanDegreeFeature()
-        self.betweeness_feature = classes.BetweennessFeature()
-        self.closeness_feature = classes.closenessFeature()
-        self.page_rank_feature = classes.pageRankFeature()
-        self.pass_attempt_feature = classes.PassesComplAttempPerPlayerFeature()
-        # self.pass_position_feature = classes.CountPassesPerPosFeature(game_pos_dir, "q-finals")
-        self.team_pass_completed_feature = classes.CountPassesComplAttempPerTeamFeature()
+        self.count_avg_pass_feature = Feature.CountAveragePassFeature()
+        self.player_position_feature = Feature.PlayerPositionsFeature()
+        self.rank_feature = Feature.RankFeature()
+        self.mean_degree_feature = Feature.MeanDegreeFeature()
+        self.betweeness_feature = Feature.BetweennessCentralFeature()
+        self.closeness_feature = Feature.ClosenessFeature()
+        self.page_rank_feature = Feature.PageRankFeature()
+        self.pass_attempt_feature = Feature.PassCompletedPlayerFeature()
+        self.team_pass_completed_feature = Feature.PassCompletedTeamFeature()
         self.init_team_postion(squad_dir)
 
     def init_team_postion(self, squad_dir):
@@ -77,16 +76,14 @@ class FeatureModel():
         features["avg_pass_percentage_P1"] = self.pass_attempt_feature.get_perc_completed_player(team_name, p1)
         features["avg_pass_percentage_P2"] = self.pass_attempt_feature.get_perc_completed_player(team_name, p2)
         features["pass_compl_percent_team"] = self.team_pass_completed_feature.get_team_perc_completed(team_name)
-        # features["pass_pos_feature_p1"] = self.pass_position_feature.getCountPerc(team_name, self.team_position[team_name][p1])
-        # features["pass_pos_feature_p2"] = self.pass_position_feature.getCountPerc(team_name,self.team_position[team_name][p2])
         return features
 
     # store match data for all games, including team and opponent team
     def initialize_match(self):
-        forder_list = classes.get_network_file_list(False, "-edges")
+        forder_list = Feature.get_network_file_list(False, "-edges")
 
         for (path, network) in forder_list:
-            team_name = classes.get_team_name(network)
+            team_name = Feature.get_team_name(network)
             match_ID = re.sub("_.*", "", network)
             if self.matches[match_ID] == "":
                 self.matches[match_ID] = team_name
@@ -96,13 +93,13 @@ class FeatureModel():
     # Training
     def train(self):
         self.initialize_match()
-        forder_list = classes.get_network_file_list(False, "-edges")
+        forder_list = Feature.get_network_file_list(False, "-edges")
         output_list = []
         match_count = 0
 
         for (path, network) in forder_list:
             edge_file = open(path + network, "r")
-            team_name = classes.get_team_name(network)
+            team_name = Feature.get_team_name(network)
             match_ID = re.sub("_.*", "", network)
             for players in edge_file:
                 p1, p2, target = players.rstrip().split("\t")

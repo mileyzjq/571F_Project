@@ -46,7 +46,7 @@ def generate_graph(path, network):
     return graph
 
 # average passes completed percentage feature
-class PassesComplAttempPerPlayerFeature():
+class PassCompletedPlayerFeature():
     def __init__(self):
         forder_list = get_network_file_list(False, "-players", "+")
         self.pass_completed_per_player = defaultdict(lambda: defaultdict(float))
@@ -69,7 +69,7 @@ class PassesComplAttempPerPlayerFeature():
         return self.pass_completed_percent[team_name][num]
 
 
-class CountAvgPassesFeature():
+class CountAveragePassFeature():
     def __init__(self):
         counts_dir = "../data/counts/avg_passes_count.txt"
         self.avg_count = defaultdict(lambda: defaultdict(float))
@@ -84,7 +84,7 @@ class CountAvgPassesFeature():
         return self.avg_count[team][p_key]
 
 
-class PlayerPositionFeature():
+class PlayerPositionsFeature():
     def __init__(self):
         squad_dir = "../data/squads/2014-15/squad_list/"
         self.team_player_name = defaultdict(lambda: defaultdict(str))
@@ -113,7 +113,7 @@ class PlayerPositionFeature():
 
 
 # compare the rank of team A and team B
-class RankingFeature():
+class RankFeature():
     def __init__(self):
         rank_dir = "../data/rankings/2013_14_rankings.txt"
         self.rank = defaultdict(int)
@@ -151,7 +151,6 @@ class MeanDegreeFeature():
             total_degree = 0
             for player in degree_per_player:
                 total_degree += degree_per_player[player]
-
             avg_degree = total_degree / player_count
             self.mean_drgree[match_ID][team_name] = avg_degree
 
@@ -159,7 +158,7 @@ class MeanDegreeFeature():
         return self.mean_drgree[match_ID][team_name] / 6.0
 
 
-class CountPassesComplAttempPerTeamFeature():
+class PassCompletedTeamFeature():
     def __init__(self):
         forder_list = get_network_file_list(False, "-team")
         self.pass_compl_percent_team = defaultdict(float)
@@ -178,7 +177,7 @@ class CountPassesComplAttempPerTeamFeature():
 
 # calculate the average betweenness centrality of each player
 # the return value is normalised of six mathces
-class BetweennessFeature():
+class BetweennessCentralFeature():
     def __init__(self):
         forder_list = get_network_file_list(False, "-edges")
         self.betweeness_centrality = defaultdict(lambda: defaultdict(float))
@@ -197,7 +196,7 @@ class BetweennessFeature():
 
 
 # get GNN closeness centrality feature
-class closenessFeature():
+class ClosenessFeature():
     def __init__(self):
         forder_list = get_network_file_list(False, "-edges")
         self.closeness_centrality = defaultdict(lambda: defaultdict(float))
@@ -216,7 +215,7 @@ class closenessFeature():
 
 
 # get GNN page rank centrality feature
-class pageRankFeature():
+class PageRankFeature():
     def __init__(self):
         forder_list = get_network_file_list(False, "-edges")
         self.page_rank = defaultdict(lambda: defaultdict(float))
