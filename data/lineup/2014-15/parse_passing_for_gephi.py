@@ -1,10 +1,4 @@
-# Jade Huang
-# Parse passing distributions (PD)
-# Assumes PD is in .csv format
-# usage: python parse_passing.py -i INFILE -o OUTFILE
-#        where INFILE is a .csv file with passing distributions
-#        OUTFILE will be the prefix for two edge/node lists
-#        (one per team)
+
 
 import sys
 import re
