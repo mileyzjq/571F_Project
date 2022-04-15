@@ -168,7 +168,6 @@ class PlayerPositionsFeature():
             return 0
         return 1
 
-
 # compare the rank of team A and team B
 class RankFeature():
     def __init__(self):
@@ -189,7 +188,7 @@ class RankFeature():
 # average degree of team edges
 class MeanDegreeFeature():
     def __init__(self):
-        forder_list = get_network_file_list(True, "-edges")
+        forder_list = get_network_file_list(False, "-edges")
         self.mean_drgree = defaultdict(lambda: defaultdict(float))
 
         for (path, network) in forder_list:

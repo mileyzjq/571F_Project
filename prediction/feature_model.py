@@ -11,7 +11,7 @@ class FeatureModel():
         self.momentum = 0.09
         self.pd_dir = "../data/passing_distributions/2014-15/"
         squad_dir = "../data/squads/2014-15/squad_list/"
-        self.save_file_dir = "../data/processed/player_data3.csv"
+        self.save_file_dir = "../data/processed/player_data4.csv"
         self.matchday = ["matchday" + str(i) for i in range(1, 7)]
         self.weights = defaultdict(float)
         self.delta_weights = defaultdict(float)
@@ -78,7 +78,7 @@ class FeatureModel():
         features["pass_compl_percent_team"] = self.team_pass_completed_feature.get_team_perc_completed(team_name)
         return features
 
-    # store match data for all games, including team and opponent team
+    # get match data for all teams
     def initialize_match(self):
         forder_list = Feature.get_network_file_list(False, "-edges")
 
