@@ -1,5 +1,3 @@
-# Jade Huang
-# jade.huang@stanford.edu
 # Parse passing distributions (PD)
 # Assumes PD is in .csv format
 # usage: python parse_passing.py -i INFILE -o OUTFILE
