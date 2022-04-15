@@ -1,6 +1,3 @@
-# Jade Huang
-# jayebird@stanford.edu
-#
 # This script was used to grab all team names who played in the
 # 2015-16 season of the Champions League.
 # This script assumes there are files named with the following
