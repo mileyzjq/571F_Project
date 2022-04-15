@@ -36,19 +36,18 @@ def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
 class Baseline():
 
     def predict(self):
-        allGames = ["matchday" + str(i) for i in range(1, 7)]
-        for i in allGames:
-            path = folder + i + "/networks/"
-            for j in os.listdir(path):
-                if re.search("-edges", j):
-                    teamName = classes.getTeamNameFromNetwork(j)
-                    with open(path + j) as file:
-                        lines = file.readlines()
-                        for line in lines:
-                            p1, p2, weight = line.rstrip().split("\t")
-                            p_key = p1 + "-" + p2
-                            allPasses[teamName][p_key] += float(weight) / 6
-                            totalTeamPasses[teamName] += float(weight)
+        forder_list = get_network_file_list(False, "-edges")
+        self.betweeness_centrality = defaultdict(lambda: defaultdict(float))
+
+        for (path, network) in forder_list:
+            team_name = get_team_name(network)
+            with open(path + network) as file:
+                lines = file.readlines()
+                for line in lines:
+                    p1, p2, target = line.rstrip().split("\t")
+                    p_key = p1 + "-" + p2
+                    allPasses[team_name][p_key] += float(target) / 6.0
+                    totalTeamPasses[team_name] += float(target)
 
         # calculate average loss
         avgLoss = 0
@@ -56,14 +55,14 @@ class Baseline():
         path = folder + "r-16/networks/"
         for i in os.listdir(path):
             if re.search("-edges", i):
-                teamName = classes.getTeamNameFromNetwork(i)
+                team_name = get_team_name(i)
                 with open(path + i) as file:
                     lines = file.readlines()
                     for line in lines:
-                        p1, p2, weight = line.rstrip().split("\t")
+                        p1, p2, target = line.rstrip().split("\t")
                         p_key = p1 + "-" + p2
-                        avgPass = allPasses[teamName][p_key]
-                        loss = (avgPass - float(weight)) ** 2
+                        avgPass = allPasses[team_name][p_key]
+                        loss = (avgPass - float(target)) ** 2
                         avgLoss += loss
                         count += 1
         print(("Baseline Average Loss: {}".format(avgLoss / count)))
