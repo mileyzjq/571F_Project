@@ -1,6 +1,3 @@
-# Jade Huang
-# jayebird@stanford.edu
-
 # This program parses out player summary statistics
 # find lines separating teams, which look like M,G,T, etc.
 # assign feature number to each feature M,G,T,etc.
