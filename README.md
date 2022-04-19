@@ -9,12 +9,13 @@ Current directories
 - <code>data/processed/trained</code> contains trained model
 - <code>data/model/model</code> contains model
 
-To run
+Get Features
 ```bash
 $ cd prediction
 $ python feature_model.py
 ```
 
+To run
 ```bash
 $ cd prediction
 $ python train.py
