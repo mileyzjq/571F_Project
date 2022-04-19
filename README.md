@@ -17,7 +17,7 @@ $ cd prediction
 $ python feature_model.py
 ```
 
-To run, make sure that the path has been changed accordingly and
+To run, our python version is 3.7, make sure that the path has been changed accordingly if you do not have python locally. Any project issue, please contact us.
 ```bash
 $ cd prediction
 $ sh run_demo.sh
