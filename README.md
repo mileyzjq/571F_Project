@@ -12,6 +12,11 @@ Current directories
 To run
 ```bash
 $ cd prediction
+$ python feature_model.py
+```
+
+```bash
+$ cd prediction
 $ python train.py
 ```
 
