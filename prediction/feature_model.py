@@ -5,7 +5,7 @@ from collections import defaultdict
 import util
 
 
-class FeatureModel():
+class FeatureModel:
     def __init__(self):
         self.learning_rate = 0.0092
         self.momentum = 0.09

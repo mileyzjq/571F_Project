@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 
 
 def getFeatureSet():
-    # key_set1 = ["avg_pass", "check_same_postion", "check_diff_rank", "avg_pass_position", "mean_degree", "between_P1",
-    #             "between_P2", "closeness_P1", "page_rank_P1", "page_rank_P2",
-    #             "avg_pass_percentage_P1", "avg_pass_percentage_P2", "pass_compl_percent_team"]
-
     key_sets = dict()
 
     key_sets["All"] = ["avg_pass", "check_same_postion", "check_diff_rank", "between_P1", "between_P2",

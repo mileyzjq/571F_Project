@@ -17,13 +17,13 @@ $ cd prediction
 $ python feature_model.py
 ```
 
-To run
+To run, make sure that the path has been changed accordingly and
 ```bash
 $ cd prediction
-$ python train.py
+$ sh run_demo.sh
 ```
 
-and supply with necessary arguments
+The script runs `train.py` so make sure to supply with necessary arguments
 
 ```
 usage:  train.py [-h] [--input_path INPUT_PATH] [--out_path OUT_PATH]
