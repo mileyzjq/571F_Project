@@ -1,4 +1,4 @@
 PYTHONPATH=.. \
-  /Users/michaelma/anaconda3/envs/571F_Project/bin/python \
+  python3 \
     train.py \
       --input_path ../data/processed/player_data3.csv
