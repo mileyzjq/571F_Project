@@ -9,7 +9,7 @@ Current directories
 - <code>data/processed/trained</code> contains trained model
 - <code>data/model/model</code> contains model
 
-Get Features
+Get features
 ```bash
 $ cd prediction
 $ python feature_model.py
