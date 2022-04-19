@@ -9,6 +9,8 @@ Current directories
 - <code>data/processed/trained</code> contains trained model
 - <code>data/model/model</code> contains model
 
+Please install snap
+
 Get features
 ```bash
 $ cd prediction
