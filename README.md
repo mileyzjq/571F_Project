@@ -17,7 +17,7 @@ $ cd prediction
 $ python feature_model.py
 ```
 
-To run, our python version is 3.7, make sure that the path has been changed accordingly if you do not have python locally. Any project issue, please contact us.
+To run, our python version is 3.7, make sure that the path has been changed accordingly if you do not have python locally. Any project issue, please contact us. If you open the project on pyCharm, you could also run train.py directly.
 ```bash
 $ cd prediction
 $ sh run_demo.sh
