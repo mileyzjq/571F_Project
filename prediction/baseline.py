@@ -3,9 +3,8 @@ import re
 from collections import defaultdict
 
 folder = "../data/passing_distributions/2014-15/"
-allPasses = defaultdict(lambda: defaultdict(float))
+all_pass = defaultdict(lambda: defaultdict(float))
 totalTeamPasses = defaultdict(float)
-
 
 def get_team_name(network):
     team_name = re.sub("[^-]*-", "", network, count=1)
@@ -30,7 +29,7 @@ def get_network_file_list(is_append, keyword, avoid_word="*&*+#"):
     return list
 
 
-# calculate averages
+# Baseline model calculate average loss of past games
 class Baseline():
 
     def predict(self):
@@ -44,11 +43,11 @@ class Baseline():
                 for line in lines:
                     p1, p2, target = line.rstrip().split("\t")
                     p_key = p1 + "-" + p2
-                    allPasses[team_name][p_key] += float(target) / 6.0
+                    all_pass[team_name][p_key] += float(target) / 6.0
                     totalTeamPasses[team_name] += float(target)
 
         # calculate average loss
-        avgLoss = 0
+        avg_loss = 0
         count = 0
         path = folder + "r-16/networks/"
         for i in os.listdir(path):
@@ -59,11 +58,11 @@ class Baseline():
                     for line in lines:
                         p1, p2, target = line.rstrip().split("\t")
                         p_key = p1 + "-" + p2
-                        avgPass = allPasses[team_name][p_key]
-                        loss = (avgPass - float(target)) ** 2
-                        avgLoss += loss
+                        avg_pass = all_pass[team_name][p_key]
+                        loss = (avg_pass - float(target)) ** 2
+                        avg_loss += loss
                         count += 1
-        print(("Baseline Average Loss: {}".format(avgLoss / count)))
+        print(("Baseline Average Loss: {}".format(avg_loss / count)))
 
 
 base = Baseline()
