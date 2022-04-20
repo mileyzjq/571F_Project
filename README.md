@@ -9,7 +9,7 @@ Current directories
 - <code>data/processed/trained</code> contains trained model
 - <code>data/model/model</code> contains model
 
-Please preinstall snap and utilize pycharm open the project
+Please preinstall snap!
 
 Get features
 ```bash
